@@ -65,6 +65,7 @@ class NpcTypeLoader @Inject constructor(
                 walkLeftAnim = buf.readUnsignedShort()
                 walkRightAnim = buf.readUnsignedShort()
             }
+            18 -> buf.readUnsignedShort()
             in 30 until 35 -> {
                 if (defaultOptions) options = arrayOfNulls(5)
                 val index = instruction - 30

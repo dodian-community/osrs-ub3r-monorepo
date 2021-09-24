@@ -54,11 +54,15 @@ sealed class Mob(
 
     var index: Int
         get() = entity.index
-        set(value) { entity.index = value }
+        set(value) {
+            entity.index = value
+        }
 
     var coords: Coordinates
         get() = entity.coords
-        set(value) { entity.coords = value }
+        set(value) {
+            entity.coords = value
+        }
 
     fun weakQueue(block: suspend () -> Unit) = queueStack.queue(QueueType.Weak, block)
 

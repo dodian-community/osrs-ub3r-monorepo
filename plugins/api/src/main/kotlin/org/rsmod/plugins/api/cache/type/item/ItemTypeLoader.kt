@@ -101,6 +101,7 @@ class ItemTypeLoader @Inject constructor(
             91 -> femaleHeadModel0 = buf.readUnsignedShort()
             92 -> maleHeadModel1 = buf.readUnsignedShort()
             93 -> femaleHeadModel1 = buf.readUnsignedShort()
+            94 -> buf.readUnsignedShort()
             95 -> zan2d = buf.readUnsignedShort()
             97 -> noteLink = buf.readUnsignedShort()
             98 -> noteValue = buf.readUnsignedShort()

@@ -28,6 +28,7 @@ class GameSessionEncoder(
         }
         val buf = ctx.alloc().buffer()
         structure.write(msg, buf)
+        //logger.debug { "Sending packet to client (packet=$msg)" }
 
         val opcode = modifyOpcode(structure.opcode)
         out.writeByte(opcode)

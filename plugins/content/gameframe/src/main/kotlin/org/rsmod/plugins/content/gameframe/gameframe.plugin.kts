@@ -24,14 +24,19 @@ frames.register {
         target = "chatbox_username_fixed"
     }
     component {
+        name = "frame_orbs"
+        inter = "frame_orbs"
+        target = "frame_orbs_fixed"
+    }
+    component {
         name = "pvp_skull"
         inter = "pvp_skull"
         target = "pvp_skull_fixed"
     }
     component {
-        name = "frame_orbs"
-        inter = "frame_orbs"
-        target = "frame_orbs_fixed"
+        name = "attack_tab"
+        inter = "attack_tab"
+        target = "attack_tab_fixed"
     }
     component {
         name = "skill_tab"
@@ -42,11 +47,6 @@ frames.register {
         name = "activity_tab"
         inter = "activity_tab"
         target = "activity_tab_fixed"
-    }
-    component {
-        name = "quest_tab"
-        inter = "quest_tab"
-        target = "quest_tab_fixed"
     }
     component {
         name = "inventory_tab"
@@ -69,14 +69,19 @@ frames.register {
         target = "magic_tab_fixed"
     }
     component {
-        name = "community_tab"
-        inter = "community_tab"
-        target = "community_tab_fixed"
+        name = "clan_chat_tab"
+        inter = "clan_chat_tab"
+        target = "clan_chat_tab_fixed"
     }
     component {
         name = "social_tab"
         inter = "social_tab"
         target = "social_tab_fixed"
+    }
+    component {
+        name = "community_tab"
+        inter = "community_tab"
+        target = "community_tab_fixed"
     }
     component {
         name = "logout_tab"
@@ -97,15 +102,5 @@ frames.register {
         name = "music_tab"
         inter = "music_tab"
         target = "music_tab_fixed"
-    }
-    component {
-        name = "clan_chat_tab"
-        inter = "clan_chat_tab"
-        target = "clan_chat_tab_fixed"
-    }
-    component {
-        name = "attack_tab"
-        inter = "attack_tab"
-        target = "attack_tab_fixed"
     }
 }

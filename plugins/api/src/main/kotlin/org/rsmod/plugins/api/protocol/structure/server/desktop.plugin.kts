@@ -1,13 +1,6 @@
 package org.rsmod.plugins.api.protocol.structure.server
 
-import io.guthix.buffer.writeByteAdd
-import io.guthix.buffer.writeByteNeg
-import io.guthix.buffer.writeIntIME
-import io.guthix.buffer.writeIntME
-import io.guthix.buffer.writeShortAdd
-import io.guthix.buffer.writeShortAddLE
-import io.guthix.buffer.writeSmallSmart
-import io.guthix.buffer.writeStringCP1252
+import io.guthix.buffer.*
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import org.rsmod.game.message.PacketLength
@@ -15,30 +8,8 @@ import org.rsmod.game.model.domain.repo.XteaRepository
 import org.rsmod.game.model.item.Item
 import org.rsmod.game.model.map.MapSquare
 import org.rsmod.plugins.api.protocol.Device
-import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
-import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
-import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
-import org.rsmod.plugins.api.protocol.packet.server.IfSetAnim
-import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
-import org.rsmod.plugins.api.protocol.packet.server.IfSetNpcHead
-import org.rsmod.plugins.api.protocol.packet.server.IfSetObject
-import org.rsmod.plugins.api.protocol.packet.server.IfSetPlayerHead
-import org.rsmod.plugins.api.protocol.packet.server.IfSetText
-import org.rsmod.plugins.api.protocol.packet.server.MessageGame
-import org.rsmod.plugins.api.protocol.packet.server.MinimapFlagSet
-import org.rsmod.plugins.api.protocol.packet.server.NpcInfoLargeViewport
-import org.rsmod.plugins.api.protocol.packet.server.NpcInfoSmallViewport
-import org.rsmod.plugins.api.protocol.packet.server.PlayerInfo
-import org.rsmod.plugins.api.protocol.packet.server.RebuildNormal
-import org.rsmod.plugins.api.protocol.packet.server.ResetAnims
-import org.rsmod.plugins.api.protocol.packet.server.ResetClientVarCache
-import org.rsmod.plugins.api.protocol.packet.server.RunClientScript
-import org.rsmod.plugins.api.protocol.packet.server.UpdateInvFull
-import org.rsmod.plugins.api.protocol.packet.server.UpdateInvPartial
-import org.rsmod.plugins.api.protocol.packet.server.UpdateRunEnergy
-import org.rsmod.plugins.api.protocol.packet.server.UpdateStat
-import org.rsmod.plugins.api.protocol.packet.server.VarpLarge
-import org.rsmod.plugins.api.protocol.packet.server.VarpSmall
+import org.rsmod.plugins.api.protocol.packet.client.ReflectionCheckReply
+import org.rsmod.plugins.api.protocol.packet.server.*
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 import org.rsmod.util.security.Xtea
 import kotlin.math.min
@@ -46,116 +17,104 @@ import kotlin.math.min
 val structures: DevicePacketStructureMap by inject()
 val packets = structures.server(Device.Desktop)
 
-packets.register<UpdateInvFull> {
-    opcode = 74
-    length = PacketLength.Short
-    write {
-        it.writeInt(component)
-        it.writeShort(key)
-        it.writeShort(items.size)
-        it.writeFullItemContainer(items)
-    }
-}
 
-packets.register<UpdateInvPartial> {
-    opcode = 35
-    length = PacketLength.Short
+packets.register<UpdateStat> {
+    opcode = 19
     write {
-        it.writeInt(component)
-        it.writeShort(key)
-        it.writePartialItemContainer(updated)
-    }
-}
-
-packets.register<RebuildNormal> {
-    opcode = 18
-    length = PacketLength.Short
-    write {
-        val xteas = xteasBuffer(viewport, xteas)
-        val buf = gpi?.write(it) ?: it
-        buf.writeShortAdd(playerZone.y)
-        buf.writeShortLE(playerZone.x)
-        buf.writeBytes(xteas)
-    }
-}
-
-packets.register<IfOpenTop> {
-    opcode = 48
-    write {
-        it.writeShort(interfaceId)
-    }
-}
-
-packets.register<IfOpenSub> {
-    opcode = 34
-    write {
-        it.writeShort(interfaceId)
-        it.writeIntME(targetComponent)
-        it.writeByte(clickMode)
-    }
-}
-
-packets.register<IfCloseSub> {
-    opcode = 76
-    write {
-        it.writeInt(component)
+        it.writeInt(xp)
+        it.writeByteNeg(currLevel)
+        it.writeByte(skill)
     }
 }
 
 packets.register<IfSetText> {
-    opcode = 13
+    opcode = 23
     length = PacketLength.Short
     write {
-        it.writeIntME(component)
         it.writeStringCP1252(text)
-    }
-}
-
-packets.register<IfSetNpcHead> {
-    opcode = 71
-    write {
-        it.writeShortAdd(npc)
-        it.writeIntME(component)
-    }
-}
-
-packets.register<IfSetPlayerHead> {
-    opcode = 33
-    write {
-        it.writeIntME(component)
-    }
-}
-
-packets.register<IfSetObject> {
-    opcode = 29
-    write {
-        it.writeShortAddLE(item)
-        it.writeIntLE(amountOrZoom)
         it.writeInt(component)
     }
 }
 
-packets.register<IfSetAnim> {
-    opcode = 14
+packets.register<PlayerInfo> {
+    opcode = 47
+    length = PacketLength.Short
     write {
-        it.writeIntLE(component)
-        it.writeShortAdd(anim)
+        it.writeBytes(buffer)
     }
 }
 
-packets.register<IfSetEvents> {
-    opcode = 68
+packets.register<IfOpenSub> {
+    opcode = 53
     write {
-        it.writeIntLE(events)
-        it.writeShortLE(dynamic.last)
-        it.writeShort(dynamic.first)
-        it.writeIntIME(component)
+        it.writeShortAdd(interfaceId)
+        it.writeInt(targetComponent)
+        it.writeByte(clickMode)
+    }
+}
+
+packets.register<IfOpenTop> {
+    opcode = 62
+    write {
+        it.writeShort(interfaceId)
+    }
+}
+
+packets.register<MessageGame> {
+    opcode = 66
+    length = PacketLength.Byte
+    write {
+        it.writeSmallSmart(type)
+        it.writeBoolean(username != null)
+        if (username != null) {
+            it.writeStringCP1252(username)
+        }
+        it.writeStringCP1252(text)
+    }
+}
+packets.register<UpdateRunEnergy> {
+    opcode = 73
+    write {
+        it.writeByte(energy)
+    }
+}
+
+packets.register<ResetClientVarCache> {
+    opcode = 90
+    write {}
+}
+
+packets.register<ResetAnims> {
+    opcode = 64
+    write {}
+}
+
+packets.register<NpcInfoSmallViewport> {
+    opcode = 43
+    length = PacketLength.Short
+    write {
+        it.writeBytes(buffer)
+    }
+}
+
+packets.register<VarpSmall> {
+    opcode = 44
+    write {
+        it.writeShort(id)
+        it.writeByteAdd(value)
+    }
+}
+
+packets.register<VarpLarge> {
+    opcode = 31
+    write {
+        it.writeShortLE(id)
+        it.writeInt(value)
     }
 }
 
 packets.register<RunClientScript> {
-    opcode = 58
-    length = PacketLength.Short
+    opcode = 92
     write {
         val types = CharArray(args.size) { i -> if (args[i] is String) 's' else 'i' }
         it.writeStringCP1252(String(types))
@@ -171,90 +130,36 @@ packets.register<RunClientScript> {
     }
 }
 
-packets.register<PlayerInfo> {
-    opcode = 66
+packets.register<RebuildNormal> {
+    opcode = 94
     length = PacketLength.Short
     write {
-        it.writeBytes(buffer)
+        val xteas = xteasBuffer(viewport, xteas)
+        val buf = gpi?.write(it) ?: it
+        buf.writeShort(playerZone.y)
+        buf.writeShort(playerZone.x)
+        buf.writeBytes(xteas)
     }
 }
 
-packets.register<NpcInfoSmallViewport> {
-    opcode = 59
+packets.register<UpdateInvFull> {
+    opcode = 13
     length = PacketLength.Short
     write {
-        it.writeBytes(buffer)
+        it.writeInt(component)
+        it.writeShort(key)
+        it.writeShort(items.size)
+        it.writeFullItemContainer(items)
     }
 }
 
-packets.register<NpcInfoLargeViewport> {
-    opcode = 5
+packets.register<UpdateInvPartial> {
+    opcode = 69
     length = PacketLength.Short
     write {
-        it.writeBytes(buffer)
-    }
-}
-
-packets.register<VarpSmall> {
-    opcode = 85
-    write {
-        it.writeByteAdd(value)
-        it.writeShort(id)
-    }
-}
-
-packets.register<VarpLarge> {
-    opcode = 31
-    write {
-        it.writeInt(value)
-        it.writeShortLE(id)
-    }
-}
-
-packets.register<ResetClientVarCache> {
-    opcode = 3
-    write { /* empty */ }
-}
-
-packets.register<ResetAnims> {
-    opcode = 51
-    write { /* empty */ }
-}
-
-packets.register<UpdateRunEnergy> {
-    opcode = 52
-    write {
-        it.writeByte(energy)
-    }
-}
-
-packets.register<UpdateStat> {
-    opcode = 28
-    write {
-        it.writeIntLE(xp)
-        it.writeByteNeg(currLevel)
-        it.writeByte(skill)
-    }
-}
-
-packets.register<MinimapFlagSet> {
-    opcode = 78
-    write {
-        it.writeByte(x)
-        it.writeByte(y)
-    }
-}
-
-packets.register<MessageGame> {
-    opcode = 39
-    length = PacketLength.Byte
-    write {
-        it.writeSmallSmart(type)
-        it.writeBoolean(username != null)
-        if (username != null) {
-            it.writeStringCP1252(username)
-        }
-        it.writeStringCP1252(text)
+        it.writeInt(component)
+        it.writeShort(key)
+        it.writePartialItemContainer(updated)
     }
 }
 

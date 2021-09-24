@@ -107,6 +107,7 @@ class ObjectTypeLoader @Inject constructor(
                     retextureDest = dest.toTypedArray()
                 }
             }
+            61 -> buf.readUnsignedShort()
             62 -> rotated = true
             64 -> clipped = false
             65 -> modelSizeX = buf.readUnsignedShort()

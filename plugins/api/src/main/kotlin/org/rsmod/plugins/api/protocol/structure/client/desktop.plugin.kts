@@ -1,421 +1,469 @@
 package org.rsmod.plugins.api.protocol.structure.client
 
-import io.guthix.buffer.readByteNeg
-import io.guthix.buffer.readIntIME
-import io.guthix.buffer.readIntME
-import io.guthix.buffer.readStringCP1252
-import io.guthix.buffer.readUnsignedByteAdd
-import io.guthix.buffer.readUnsignedByteNeg
-import io.guthix.buffer.readUnsignedByteSub
-import io.guthix.buffer.readUnsignedShortAdd
-import io.guthix.buffer.readUnsignedShortAddLE
+import com.github.michaelbull.logging.InlineLogger
+import io.guthix.buffer.*
+import org.rsmod.game.message.ClientPacket
 import org.rsmod.plugins.api.protocol.Device
-import org.rsmod.plugins.api.protocol.packet.client.ClientCheat
-import org.rsmod.plugins.api.protocol.packet.client.ClientCheatHandler
-import org.rsmod.plugins.api.protocol.packet.client.EventAppletFocus
-import org.rsmod.plugins.api.protocol.packet.client.EventCameraPosition
-import org.rsmod.plugins.api.protocol.packet.client.EventKeyboard
-import org.rsmod.plugins.api.protocol.packet.client.EventMouseClick
-import org.rsmod.plugins.api.protocol.packet.client.EventMouseIdle
-import org.rsmod.plugins.api.protocol.packet.client.EventMouseMove
-import org.rsmod.plugins.api.protocol.packet.client.GameClickHandler
-import org.rsmod.plugins.api.protocol.packet.client.IfButton
-import org.rsmod.plugins.api.protocol.packet.client.IfButtonHandler
-import org.rsmod.plugins.api.protocol.packet.client.LoginTimings
-import org.rsmod.plugins.api.protocol.packet.client.MapBuildComplete
-import org.rsmod.plugins.api.protocol.packet.client.MinimapClickHandler
-import org.rsmod.plugins.api.protocol.packet.client.MoveGameClick
-import org.rsmod.plugins.api.protocol.packet.client.MoveMinimapClick
-import org.rsmod.plugins.api.protocol.packet.client.NoTimeout
-import org.rsmod.plugins.api.protocol.packet.client.OpHeld1
-import org.rsmod.plugins.api.protocol.packet.client.OpHeld1Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpHeld2
-import org.rsmod.plugins.api.protocol.packet.client.OpHeld2Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpHeld3
-import org.rsmod.plugins.api.protocol.packet.client.OpHeld3Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpHeld4
-import org.rsmod.plugins.api.protocol.packet.client.OpHeld4Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpHeld5
-import org.rsmod.plugins.api.protocol.packet.client.OpHeld5Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpHeld6
-import org.rsmod.plugins.api.protocol.packet.client.OpHeld6Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc1
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc1Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc2
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc2Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc3
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc3Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc4
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc4Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc5
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc5Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc6
-import org.rsmod.plugins.api.protocol.packet.client.OpLoc6Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpNpc1
-import org.rsmod.plugins.api.protocol.packet.client.OpNpc1Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpNpc2
-import org.rsmod.plugins.api.protocol.packet.client.OpNpc2Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpNpc3
-import org.rsmod.plugins.api.protocol.packet.client.OpNpc3Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpNpc4
-import org.rsmod.plugins.api.protocol.packet.client.OpNpc4Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpNpc5
-import org.rsmod.plugins.api.protocol.packet.client.OpNpc5Handler
-import org.rsmod.plugins.api.protocol.packet.client.OpNpc6
-import org.rsmod.plugins.api.protocol.packet.client.OpNpc6Handler
-import org.rsmod.plugins.api.protocol.packet.client.ReflectionCheckReply
-import org.rsmod.plugins.api.protocol.packet.client.ResumePCountDialog
-import org.rsmod.plugins.api.protocol.packet.client.ResumePCountDialogHandler
-import org.rsmod.plugins.api.protocol.packet.client.ResumePObjDialog
-import org.rsmod.plugins.api.protocol.packet.client.ResumePObjDialogHandler
-import org.rsmod.plugins.api.protocol.packet.client.ResumePauseButton
-import org.rsmod.plugins.api.protocol.packet.client.ResumePauseButtonHandler
-import org.rsmod.plugins.api.protocol.packet.client.WindowStatus
+import org.rsmod.plugins.api.protocol.packet.client.*
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
+
+val logger = InlineLogger()
 
 val structures: DevicePacketStructureMap by inject()
 val packets = structures.client(Device.Desktop)
 
-packets.register<EventMouseMove> {
-    opcode = 72
-    length = -1
-}
-
-packets.register<EventMouseClick> {
-    opcode = 47
-    length = 6
-}
-
-packets.register<EventMouseIdle> {
-    opcode = 69
-    length = 0
-}
-
-packets.register<EventAppletFocus> {
-    opcode = 5
-    length = 1
-}
-
-packets.register<EventKeyboard> {
-    opcode = 70
-    length = -2
-}
-
-packets.register<EventCameraPosition> {
-    opcode = 37
-    length = 4
-}
-
-packets.register<ClientCheat> {
-    opcode = 32
-    length = -1
-    handler = ClientCheatHandler::class
-    read {
-        val input = readStringCP1252()
-        ClientCheat(input)
-    }
-}
-
-packets.register<MapBuildComplete> {
-    opcode = 48
-    length = 0
-}
-
 packets.register<MoveGameClick> {
-    opcode = 34
+    opcode = 57
     length = -1
     handler = GameClickHandler::class
     read {
-        val type = readByteNeg().toInt()
+        val type = readUnsignedByteAdd().toInt()
+        val x = readUnsignedShortLE()
         val y = readUnsignedShortAddLE()
-        val x = readUnsignedShort()
+        logger.debug { "Moving to x: $x, y: $y" }
         MoveGameClick(x, y, type)
     }
 }
 
 packets.register<MoveMinimapClick> {
-    opcode = 45
+    opcode = 66
     length = -1
     handler = MinimapClickHandler::class
     read {
-        val type = readByteNeg().toInt()
+        val type = readByteAdd().toInt()
+        val x = readUnsignedShortLE()
         val y = readUnsignedShortAddLE()
-        val x = readUnsignedShort()
+        logger.debug { "Moving to x: $x, y: $y" }
         MoveMinimapClick(x, y, type)
     }
 }
 
-packets.register<OpLoc1> {
-    opcode = 94
-    length = 7
-    handler = OpLoc1Handler::class
-    read {
-        val y = readUnsignedShortAdd()
-        val x = readUnsignedShortAdd()
-        val mode = readUnsignedByte().toInt()
-        val id = readUnsignedShort()
-        OpLoc1(id, x, y, mode)
-    }
+packets.register<ClientPacket> {
+    opcode = 0
+    length = -1
 }
 
-packets.register<OpLoc2> {
-    opcode = 78
-    length = 7
-    handler = OpLoc2Handler::class
-    read {
-        val y = readUnsignedShortAdd()
-        val mode = readUnsignedByteNeg().toInt()
-        val id = readUnsignedShortLE()
-        val x = readUnsignedShort()
-        OpLoc2(id, x, y, mode)
-    }
+packets.register<ClientPacket> {
+    opcode = 1
+    length = -2
 }
 
-packets.register<OpLoc3> {
-    opcode = 89
-    length = 7
-    handler = OpLoc3Handler::class
-    read {
-        val mode = readUnsignedByte().toInt()
-        val id = readUnsignedShortLE()
-        val x = readUnsignedShortLE()
-        val y = readUnsignedShortAddLE()
-        OpLoc3(id, x, y, mode)
-    }
+packets.register<ClientPacket> {
+    opcode = 2
+    length = 8
 }
 
-packets.register<OpLoc4> {
+packets.register<ClientPacket> {
+    opcode = 3
+    length = 15
+}
+
+packets.register<ClientPacket> {
+    opcode = 4
+    length = 16
+}
+
+packets.register<ClientPacket> {
+    opcode = 5
+    length = -1
+}
+
+packets.register<ClientPacket> {
+    opcode = 6
+    length = 3
+}
+
+packets.register<ClientPacket> {
+    opcode = 7
+    length = 4
+}
+
+packets.register<ClientPacket> {
+    opcode = 8
+    length = 3
+}
+
+packets.register<ClientPacket> {
+    opcode = 9
+    length = 7
+}
+
+packets.register<ClientPacket> {
+    opcode = 10
+    length = 8
+}
+
+packets.register<ClientPacket> {
+    opcode = 11
+    length = 3
+}
+
+packets.register<ClientPacket> {
+    opcode = 12
+    length = 16
+}
+
+packets.register<ClientPacket> {
+    opcode = 13
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 14
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 15
+    length = 16
+}
+packets.register<ClientPacket> {
+    opcode = 16
+    length = 2
+}
+packets.register<EventMouseClick> {
     opcode = 17
-    length = 7
-    handler = OpLoc4Handler::class
-    read {
-        val y = readUnsignedShortAddLE()
-        val mode = readUnsignedByteSub().toInt()
-        val x = readUnsignedShortAddLE()
-        val id = readUnsignedShortAddLE()
-        OpLoc4(id, x, y, mode)
-    }
+    length = 6
 }
-
-packets.register<OpLoc5> {
+packets.register<ClientPacket> {
+    opcode = 18
+    length = 3
+}
+packets.register<ClientPacket> {
+    opcode = 19
+    length = 7
+}
+packets.register<ClientPacket> {
+    opcode = 20
+    length = 15
+}
+packets.register<ClientPacket> {
+    opcode = 21
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 22
+    length = 4
+}
+packets.register<ClientPacket> {
+    opcode = 23
+    length = 8
+}
+packets.register<WindowStatus> {
+    opcode = 24
+    length = 5
+}
+packets.register<ClientPacket> {
+    opcode = 25
+    length = 4
+}
+packets.register<ClientPacket> {
+    opcode = 26
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 27
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 28
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 29
+    length = 7
+}
+packets.register<ClientPacket> {
+    opcode = 30
+    length = 3
+}
+packets.register<ClientPacket> {
+    opcode = 31
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 32
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 33
+    length = 6
+}
+packets.register<ClientPacket> {
+    opcode = 34
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 35
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 36
+    length = 3
+}
+packets.register<ClientPacket> {
+    opcode = 37
+    length = 7
+}
+packets.register<ClientPacket> {
+    opcode = 38
+    length = 2
+}
+packets.register<ClientPacket> {
+    opcode = 39
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 40
+    length = 11
+}
+packets.register<ClientPacket> {
+    opcode = 41
+    length = 7
+}
+packets.register<ClientPacket> {
+    opcode = 42
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 43
+    length = 15
+}
+packets.register<ClientPacket> {
+    opcode = 44
+    length = 7
+}
+packets.register<ClientPacket> {
+    opcode = 45
+    length = 3
+}
+packets.register<ClientPacket> {
+    opcode = 46
+    length = 3
+}
+packets.register<ClientPacket> {
+    opcode = 47
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 48
+    length = 4
+}
+packets.register<ClientPacket> {
+    opcode = 49
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 50
+    length = 2
+}
+packets.register<ClientPacket> {
+    opcode = 51
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 52
+    length = 3
+}
+packets.register<ClientPacket> {
+    opcode = 53
+    length = 11
+}
+packets.register<ClientPacket> {
+    opcode = 54
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 55
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 56
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 58
+    length = 0
+}
+packets.register<ClientPacket> {
+    opcode = 59
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 60
+    length = 4
+}
+packets.register<EventAppletFocus> {
+    opcode = 61
+    length = 1
+}
+packets.register<ClientPacket> {
+    opcode = 62
+    length = 9
+}
+packets.register<ClientPacket> {
+    opcode = 63
+    length = 9
+}
+packets.register<ClientPacket> {
+    opcode = 64
+    length = 0
+}
+packets.register<ClientPacket> {
+    opcode = 65
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 67
+    length = 0
+}
+packets.register<ClientPacket> {
+    opcode = 68
+    length = 13
+}
+packets.register<ClientPacket> {
+    opcode = 69
+    length = 7
+}
+packets.register<ClientPacket> {
+    opcode = 70
+    length = 3
+}
+packets.register<ClientPacket> {
+    opcode = 71
+    length = -2
+}
+packets.register<ClientPacket> {
+    opcode = 72
+    length = 7
+}
+packets.register<ClientPacket> {
+    opcode = 73
+    length = 0
+}
+packets.register<ClientPacket> {
+    opcode = 74
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 75
+    length = 14
+}
+packets.register<ClientPacket> {
+    opcode = 76
+    length = 10
+}
+packets.register<ClientPacket> {
+    opcode = 77
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 78
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 79
+    length = -1
+}
+packets.register<ClientPacket> {
     opcode = 80
     length = 7
-    handler = OpLoc5Handler::class
-    read {
-        val x = readUnsignedShortLE()
-        val id = readUnsignedShortAddLE()
-        val mode = readUnsignedByteNeg().toInt()
-        val y = readUnsignedShortAdd()
-        OpLoc5(id, x, y, mode)
-    }
 }
-
-packets.register<OpLoc6> {
-    opcode = 62
+packets.register<ClientPacket> {
+    opcode = 81
     length = 2
-    handler = OpLoc6Handler::class
-    read {
-        val id = readUnsignedShortAddLE()
-        OpLoc6(id)
-    }
 }
-
-packets.register<OpNpc1> {
-    opcode = 7
-    length = 3
-    handler = OpNpc1Handler::class
-    read {
-        val mode = readUnsignedByteAdd().toInt()
-        val index = readUnsignedShortAdd()
-        OpNpc1(index, mode)
-    }
+packets.register<ClientPacket> {
+    opcode = 82
+    length = -1
 }
-
-packets.register<OpNpc2> {
-    opcode = 40
-    length = 3
-    handler = OpNpc2Handler::class
-    read {
-        val mode = readUnsignedByteNeg().toInt()
-        val index = readUnsignedShort()
-        OpNpc2(index, mode)
-    }
+packets.register<ClientPacket> {
+    opcode = 83
+    length = 8
 }
-
-packets.register<OpNpc3> {
-    opcode = 31
-    length = 3
-    handler = OpNpc3Handler::class
-    read {
-        val index = readUnsignedShortAdd()
-        val mode = readUnsignedByteAdd().toInt()
-        OpNpc3(index, mode)
-    }
+packets.register<ClientPacket> {
+    opcode = 84
+    length = 7
 }
-
-packets.register<OpNpc4> {
-    opcode = 2
-    length = 3
-    handler = OpNpc4Handler::class
-    read {
-        val mode = readUnsignedByteNeg().toInt()
-        val index = readUnsignedShortAdd()
-        OpNpc4(index, mode)
-    }
-}
-
-packets.register<OpNpc5> {
-    opcode = 73
-    length = 3
-    handler = OpNpc5Handler::class
-    read {
-        val index = readUnsignedShortAddLE()
-        val mode = readUnsignedByteSub().toInt()
-        OpNpc5(index, mode)
-    }
-}
-
-packets.register<OpNpc6> {
-    opcode = 42
+packets.register<ClientPacket> {
+    opcode = 85
     length = 2
-    handler = OpNpc6Handler::class
-    read {
-        val id = readUnsignedShort()
-        OpNpc6(id)
-    }
 }
-
-packets.register<OpHeld1> {
-    opcode = 57
-    length = 8
-    handler = OpHeld1Handler::class
-    read {
-        val component = readIntLE()
-        val slot = readUnsignedShort()
-        val item = readUnsignedShort()
-        OpHeld1(item, component, slot)
-    }
-}
-
-packets.register<OpHeld2> {
-    opcode = 22
-    length = 8
-    handler = OpHeld2Handler::class
-    read {
-        val item = readUnsignedShortAddLE()
-        val slot = readUnsignedShortAddLE()
-        val component = readIntLE()
-        OpHeld2(item, component, slot)
-    }
-}
-
-packets.register<OpHeld3> {
-    opcode = 87
-    length = 8
-    handler = OpHeld3Handler::class
-    read {
-        val slot = readUnsignedShortAddLE()
-        val component = readInt()
-        val item = readUnsignedShortLE()
-        OpHeld3(item, component, slot)
-    }
-}
-
-packets.register<OpHeld4> {
-    opcode = 60
-    length = 8
-    handler = OpHeld4Handler::class
-    read {
-        val slot = readUnsignedShortAddLE()
-        val item = readUnsignedShortAdd()
-        val component = readIntIME()
-        OpHeld4(item, component, slot)
-    }
-}
-
-packets.register<OpHeld5> {
-    opcode = 67
-    length = 8
-    handler = OpHeld5Handler::class
-    read {
-        val component = readIntME()
-        val item = readUnsignedShort()
-        val slot = readUnsignedShortAddLE()
-        OpHeld5(item, component, slot)
-    }
-}
-
-packets.register<OpHeld6> {
-    opcode = 43
-    length = 2
-    handler = OpHeld6Handler::class
-    read {
-        val item = readUnsignedShortAdd()
-        OpHeld6(item)
-    }
-}
-
-packets.register<ResumePObjDialog> {
-    opcode = 102
-    length = 2
-    handler = ResumePObjDialogHandler::class
-    read {
-        val item = readUnsignedShort()
-        ResumePObjDialog(item)
-    }
-}
-
-packets.register<ResumePCountDialog> {
-    opcode = 56
-    length = 4
-    handler = ResumePCountDialogHandler::class
-    read {
-        val amount = readInt()
-        ResumePCountDialog(amount)
-    }
-}
-
-packets.register<ResumePauseButton> {
-    opcode = 28
-    length = 6
-    handler = ResumePauseButtonHandler::class
-    read {
-        val component = readIntLE()
-        val slot = readUnsignedShortAddLE()
-        ResumePauseButton(component, slot)
-    }
-}
-
-packets.register<ReflectionCheckReply> {
+packets.register<EventMouseMove> {
     opcode = 86
     length = -1
 }
-
-packets.register<NoTimeout> {
-    opcode = 76
+packets.register<ClientPacket> {
+    opcode = 87
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 88
+    length = 3
+}
+packets.register<ClientPacket> {
+    opcode = 89
     length = 0
 }
-
-packets.register<WindowStatus> {
-    opcode = 61
-    length = 5
+packets.register<ClientPacket> {
+    opcode = 90
+    length = 3
 }
-
-packets.register<IfButton> {
-    val typeOpcodes = listOf(91, 12, 97, 19, 25, 21, 29, 59, 24, 71)
-    addOpcodes(typeOpcodes)
+packets.register<ClientPacket> {
+    opcode = 91
+    length = -2
+}
+packets.register<ClientPacket> {
+    opcode = 92
     length = 8
-    handler = IfButtonHandler::class
-    read { opcode ->
-        val type = typeOpcodes.indexOf(opcode) + IfButton.TYPE_INDEX_OFFSET
-        val component = readInt()
-        val slot = readShort().toInt()
-        val item = readShort().toInt()
-        IfButton(type, component, slot, item)
-    }
 }
-
-packets.register<LoginTimings> {
+packets.register<ClientPacket> {
+    opcode = 93
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 94
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 95
+    length = 3
+}
+packets.register<ClientPacket> {
+    opcode = 96
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 97
+    length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 98
+    length = 8
+}
+packets.register<ClientPacket> {
     opcode = 99
     length = -1
+}
+packets.register<ClientPacket> {
+    opcode = 100
+    length = 7
+}
+packets.register<ClientPacket> {
+    opcode = 101
+    length = 3
+}
+packets.register<ClientPacket> {
+    opcode = 102
+    length = 15
+}
+packets.register<ClientPacket> {
+    opcode = 103
+    length = 11
+}
+packets.register<ClientPacket> {
+    opcode = 104
+    length = 8
+}
+packets.register<ClientPacket> {
+    opcode = 105
+    length = 11
 }
