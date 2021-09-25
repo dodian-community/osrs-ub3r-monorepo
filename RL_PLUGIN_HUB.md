@@ -6,7 +6,7 @@ This is a guide on how to setup your own RuneLite plugin hub.
 - Access to OpenSSL (which I guess most OSs has these days)
 - A copy of RuneLite if you want to test your hub
 
-### Generating & Verifying Keys [KeyValidator.java](/util/src/main/java/org/rsmod/util/runelite/plugindownloader/KeyValidator.java)
+### Generating & Verifying Keys - [KeyValidator.java](/util/src/main/java/org/rsmod/util/runelite/plugindownloader/KeyValidator.java)
 1. Run this command: `openssl req -x509 -newkey rsa:1024 -keyout key.pem -out cert.pem -days 365 -nodes`
 2. That will give you a key.pem and cert.pem \
     - cert.pem will be what goes into your RuneLite copy as externalplugins.crt (just rename it)
@@ -16,7 +16,7 @@ This is a guide on how to setup your own RuneLite plugin hub.
 5. If all is ok, you should get a prompt saying "ALL OK! :)", if something failed \
     your keys aren't working, and something likely went wrong during generation.
 
-### Downloading Plugins From RuneLite Plugin Hub [PluginDownloader.kt](/util/src/main/kotlin/org/rsmod/util/runelite/plugindownloader/PluginDownloader.kt)
+### Downloading Plugins From RuneLite Plugin Hub - [PluginDownloader.kt](/util/src/main/kotlin/org/rsmod/util/runelite/plugindownloader/PluginDownloader.kt)
 1. Make sure you've generated and validated your public and private key from above section.
 2. Put the private.pem inside [util](/util)-folder.
 3. Get RuneLite's `externalplugins.crt` and place that in the [util](/util)-folder as well.
