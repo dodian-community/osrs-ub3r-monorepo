@@ -1,0 +1,2 @@
+This text file doesn't do anything, just sits here and is used to verify that your public and private keys are
+working as they should. No need to do anything with this file.
