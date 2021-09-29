@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.protocol.structure.server
 
+import com.github.michaelbull.logging.InlineLogger
 import io.guthix.buffer.*
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
@@ -21,9 +22,9 @@ val packets = structures.server(Device.Desktop)
 packets.register<UpdateStat> {
     opcode = 19
     write {
-        it.writeInt(xp)
-        it.writeByteNeg(currLevel)
-        it.writeByte(skill)
+        it.writeByteSub(currLevel)
+        it.writeIntME(xp)
+        it.writeByteSub(skill)
     }
 }
 
@@ -109,24 +110,23 @@ packets.register<VarpLarge> {
     opcode = 31
     write {
         it.writeShortLE(id)
-        it.writeInt(value)
+        it.writeIntLE(value)
     }
 }
-
+val logger = InlineLogger()
 packets.register<RunClientScript> {
     opcode = 92
+    length = PacketLength.Short
     write {
         val types = CharArray(args.size) { i -> if (args[i] is String) 's' else 'i' }
         it.writeStringCP1252(String(types))
-        for (i in args.size - 1 downTo 0) {
-            val arg = args[i]
-            if (arg is String) {
-                it.writeStringCP1252(arg)
-            } else if (arg is Number) {
-                it.writeInt(arg.toInt())
-            }
+        args.reversed().forEach { arg ->
+            if (arg is String) it.writeStringCP1252(arg)
+            else it.writeInt(arg.toString().toInt())
         }
         it.writeInt(id)
+
+        logger.debug { "Writing RunClientScript (id=$id, types=${String(types)}, args=$args)" }
     }
 }
 

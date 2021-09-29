@@ -10,7 +10,7 @@ dependencies {
 tasks.create<JavaExec>("createRsa") {
     classpath = sourceSets.main.get().runtimeClasspath
     description = "Creates RSA key pair"
-    main = "org.rsmod.util.security.RsaGenerator"
+    mainClass.set("org.rsmod.util.security.RsaGenerator")
     args = listOf(
         "2048",
         "16",
@@ -22,14 +22,14 @@ tasks.create<JavaExec>("downloadPlugins") {
     group = "plugin-hub"
 
     classpath = sourceSets.main.get().runtimeClasspath
-    description = "Creates RSA key pair"
-    main = "org.rsmod.util.runelite.plugindownloader.PluginDownloader"
+    description = "Download plugins from official RuneLite plugin hub"
+    mainClass.set("org.rsmod.util.runelite.PluginDownloader")
 }
 
 tasks.create<JavaExec>("verifyKeys") {
     group = "plugin-hub"
 
     classpath = sourceSets.main.get().runtimeClasspath
-    description = "Creates RSA key pair"
-    main = "org.rsmod.util.runelite.plugindownloader.KeyGenerator"
+    description = "Validate public and private key for your RuneLite plugin hub"
+    mainClass.set("org.rsmod.util.runelite.KeyValidator")
 }

@@ -1,0 +1,5 @@
+*
+!.gitignore
+!dummy-text.txt
+!README.md
+!wanted-plugins.yml.example

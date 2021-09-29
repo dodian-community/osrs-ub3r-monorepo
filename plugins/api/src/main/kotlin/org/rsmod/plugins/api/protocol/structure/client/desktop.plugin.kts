@@ -20,7 +20,6 @@ packets.register<MoveGameClick> {
         val type = readUnsignedByteAdd().toInt()
         val x = readUnsignedShortLE()
         val y = readUnsignedShortAddLE()
-        logger.debug { "Moving to x: $x, y: $y" }
         MoveGameClick(x, y, type)
     }
 }
@@ -33,7 +32,6 @@ packets.register<MoveMinimapClick> {
         val type = readByteAdd().toInt()
         val x = readUnsignedShortLE()
         val y = readUnsignedShortAddLE()
-        logger.debug { "Moving to x: $x, y: $y" }
         MoveMinimapClick(x, y, type)
     }
 }
