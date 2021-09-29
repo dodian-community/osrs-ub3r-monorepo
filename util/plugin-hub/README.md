@@ -7,12 +7,14 @@ Follow the steps below if you want to set up your own RuneLite Plugin Hub and ac
 - A copy of RuneLite if you want to test your hub
 
 ### Generating & Verifying Keys
+Code: [KeyValidator.kt](/src/main/kotlin/org/rsmod/util/runelite/KeyValidator.kt)
 1. Run this command in the [keys][keys-folder]-folder: `openssl req -x509 -newkey rsa:1024 -keyout private.pem -out externalplugins.crt -days 365 -nodes`
 2. Once you have these files, put them in [keys][keys-folder]-folder
-3. Run the Gradle-task `plugin-hub`->`validateKeys`
+3. Run the Gradle-task `plugin-hub`->`verifyKeys`
 4. If all is ok, you should get a prompt saying `Everything works, your keys are ready to use!`. If something failed your keys aren't working, and something likely went wrong during generation.
 
 ### Downloading Plugins From RuneLite Plugin Hub
+Code: [PluginDownloader.kt](/src/main/kotlin/org/rsmod/util/runelite/PluginDownloader.kt)
 1. Make sure you've generated and validated your public and private key from above section.
 2. Make sure to create your `wanted-plugins.yml` config inside the [plugin-hub][plugin-hub-folder]-folder
 3. Get RuneLite's `externalplugins.crt` and place that in the [plugin-hub][plugin-hub-folder]-folder as well.
