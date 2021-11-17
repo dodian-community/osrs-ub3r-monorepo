@@ -13,22 +13,14 @@ val structures: DevicePacketStructureMap by inject()
 val masks = structures.playerUpdate(Device.Desktop)
 
 masks.order {
-    -MovementTempMask::class
-    // Exact Movement Mask
     -MovementPermMask::class
-    // Animation Mask
-    // Force Chat Mask
-    // Face Entity Mask
-    // Chat Mask
-    // Graphics Mask
-    -AppearanceMask::class
     -DirectionMask::class
-    // Hit Mask
-    // Click Ops Mask (Used for Games Room)
+    -MovementTempMask::class
+    -AppearanceMask::class
 }
 
 masks.register<BitMask> {
-    mask = 4
+    mask = 64
     write {
         if (packed >= 255) {
             val bitmask = packed or mask
@@ -41,23 +33,23 @@ masks.register<BitMask> {
 }
 
 masks.register<DirectionMask> {
-    mask = 128
+    mask = 1
     write {
-        it.writeShortLE(angle)
+        it.writeShortAdd(angle)
     }
 }
 
 masks.register<MovementPermMask> {
-    mask = 8192
+    mask = 1024
     write {
-        it.writeByteSub(type)
+        it.writeByte(type)
     }
 }
 
 masks.register<MovementTempMask> {
-    mask = 512
+    mask = 2048
     write {
-        it.writeByteAdd(type)
+        it.writeByteSub(type)
     }
 }
 
@@ -89,7 +81,7 @@ masks.register<AppearanceMask> {
         appBuf.writeShort(0) /* unknown */
         appBuf.writeBoolean(invisible)
 
-        it.writeByte(appBuf.writerIndex())
+        it.writeByteSub(appBuf.writerIndex())
         it.writeBytesAdd(appBuf)
     }
 }

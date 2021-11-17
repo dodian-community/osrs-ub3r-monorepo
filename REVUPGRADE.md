@@ -11,5 +11,5 @@ Anything not in this list should be same as the original RS Mod 2 #194 version.
   - [player-updating](/plugins/api/src/main/kotlin/org/rsmod/plugins/api/protocol/structure/update/desktop.plugin.kts)
   - [server-packets](/plugins/api/src/main/kotlin/org/rsmod/plugins/api/protocol/structure/server/desktop.plugin.kts)
   - [login-packets](/plugins/api/src/main/kotlin/org/rsmod/plugins/api/protocol/structure/login/login.plugin.kts)
-    - Updated the CRC checks to match the #199 client
+    - Updated the CRC checks to match the #200 client
   - [client-packets](/plugins/api/src/main/kotlin/org/rsmod/plugins/api/protocol/structure/client/desktop.plugin.kts)

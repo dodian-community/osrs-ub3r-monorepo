@@ -10,20 +10,20 @@ class ChannelMessageListener(
 ) : ServerPacketListener {
 
     private val validPackets = setOf(
-        PlayerInfo::class,
         RebuildNormal::class,
-        IfOpenSub::class,
+        PlayerInfo::class,
         IfOpenTop::class,
-        ResetClientVarCache::class,
-        ResetAnims::class,
-        IfSetText::class,
-        NpcInfoSmallViewport::class,
-        UpdateStat::class,
-        MessageGame::class,
-        UpdateRunEnergy::class,
-        VarpSmall::class,
-        VarpLarge::class,
-        RunClientScript::class
+        //IfOpenSub::class,
+        //ResetClientVarCache::class,
+        //ResetAnims::class,
+        //IfSetText::class,
+        //NpcInfoSmallViewport::class,
+        //UpdateStat::class,
+        //MessageGame::class,
+        //UpdateRunEnergy::class,
+        //VarpSmall::class,
+        //VarpLarge::class,
+        //RunClientScript::class
     )
 
     override fun write(packet: ServerPacket) {
