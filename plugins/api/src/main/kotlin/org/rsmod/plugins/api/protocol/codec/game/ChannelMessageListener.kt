@@ -13,16 +13,16 @@ class ChannelMessageListener(
         RebuildNormal::class,
         PlayerInfo::class,
         IfOpenTop::class,
-        //IfOpenSub::class,
+        IfOpenSub::class,
         //ResetClientVarCache::class,
         //ResetAnims::class,
-        //IfSetText::class,
+        IfSetText::class,
         //NpcInfoSmallViewport::class,
         //UpdateStat::class,
-        //MessageGame::class,
+        MessageGame::class,
         //UpdateRunEnergy::class,
-        //VarpSmall::class,
-        //VarpLarge::class,
+        VarpSmall::class,
+        VarpLarge::class,
         //RunClientScript::class
     )
 

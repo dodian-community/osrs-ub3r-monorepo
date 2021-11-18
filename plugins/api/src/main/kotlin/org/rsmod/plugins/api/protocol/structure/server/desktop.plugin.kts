@@ -18,35 +18,93 @@ val structures: DevicePacketStructureMap by inject()
 val packets = structures.server(Device.Desktop)
 
 packets.register<RebuildNormal> {
-    opcode = 62
+    opcode = 1
     length = PacketLength.Short
     write {
         val xteas = xteasBuffer(viewport, xteas)
         val buf = gpi?.write(it) ?: it
+        buf.writeShortAdd(playerZone.y)
         buf.writeShortLE(playerZone.x)
-        buf.writeShort(playerZone.y)
         buf.writeBytes(xteas)
     }
 }
 
 packets.register<IfOpenTop> {
-    opcode = 49
+    opcode = 6
     length = PacketLength.Fixed
     write {
-        it.writeShortAdd(interfaceId)
+        it.writeShortAddLE(interfaceId)
+    }
+}
+
+packets.register<IfOpenSub> {
+    opcode = 17
+    write {
+        it.writeShortAddLE(interfaceId)
+        it.writeIntME(targetComponent)
+        it.writeByteAdd(clickMode)
     }
 }
 
 packets.register<PlayerInfo> {
-    opcode = 16
+    opcode = 38
     length = PacketLength.Short
     write {
         it.writeBytes(buffer)
     }
 }
 
+packets.register<IfSetText> {
+    opcode = 53
+    length = PacketLength.Short
+    write {
+        it.writeStringCP1252(text)
+        it.writeIntIME(component)
+    }
+}
 
+packets.register<VarpSmall> {
+    opcode = 10
+    write {
+        it.writeByte(value)
+        it.writeShortAdd(id)
+    }
+}
 
+packets.register<VarpLarge> {
+    opcode = 40
+    write {
+        it.writeIntLE(value)
+        it.writeShort(id)
+    }
+}
+
+packets.register<RunClientScript> {
+    opcode = 21
+    length = PacketLength.Short
+    write {
+        val types = CharArray(args.size) { i -> if (args[i] is String) 's' else 'i' }
+        it.writeStringCP1252(String(types))
+        args.reversed().forEach { arg ->
+            if (arg is String) it.writeStringCP1252(arg)
+            else it.writeInt(arg.toString().toInt())
+        }
+        it.writeInt(id)
+    }
+}
+
+packets.register<MessageGame> {
+    opcode = 68
+    length = PacketLength.Byte
+    write {
+        it.writeSmallSmart(type)
+        it.writeBoolean(username != null)
+        if (username != null) {
+            it.writeStringCP1252(username)
+        }
+        it.writeStringCP1252(text)
+    }
+}
 
 
 //packets.register<UpdateStat> {
@@ -58,36 +116,6 @@ packets.register<PlayerInfo> {
 //    }
 //}
 //
-//packets.register<IfSetText> {
-//    opcode = 23
-//    length = PacketLength.Short
-//    write {
-//        it.writeStringCP1252(text)
-//        it.writeInt(component)
-//    }
-//}
-//
-//packets.register<IfOpenSub> {
-//    opcode = 53
-//    write {
-//        it.writeShortAdd(interfaceId)
-//        it.writeInt(targetComponent)
-//        it.writeByte(clickMode)
-//    }
-//}
-//
-//packets.register<MessageGame> {
-//    opcode = 66
-//    length = PacketLength.Byte
-//    write {
-//        it.writeSmallSmart(type)
-//        it.writeBoolean(username != null)
-//        if (username != null) {
-//            it.writeStringCP1252(username)
-//        }
-//        it.writeStringCP1252(text)
-//    }
-//}
 //packets.register<UpdateRunEnergy> {
 //    opcode = 73
 //    write {
@@ -113,37 +141,7 @@ packets.register<PlayerInfo> {
 //    }
 //}
 //
-//packets.register<VarpSmall> {
-//    opcode = 44
-//    write {
-//        it.writeShort(id)
-//        it.writeByteAdd(value)
-//    }
-//}
-//
-//packets.register<VarpLarge> {
-//    opcode = 31
-//    write {
-//        it.writeShortLE(id)
-//        it.writeIntLE(value)
-//    }
-//}
 //val logger = InlineLogger()
-//packets.register<RunClientScript> {
-//    opcode = 92
-//    length = PacketLength.Short
-//    write {
-//        val types = CharArray(args.size) { i -> if (args[i] is String) 's' else 'i' }
-//        it.writeStringCP1252(String(types))
-//        args.reversed().forEach { arg ->
-//            if (arg is String) it.writeStringCP1252(arg)
-//            else it.writeInt(arg.toString().toInt())
-//        }
-//        it.writeInt(id)
-//
-//        logger.debug { "Writing RunClientScript (id=$id, types=${String(types)}, args=$args)" }
-//    }
-//}
 //
 //packets.register<UpdateInvFull> {
 //    opcode = 13

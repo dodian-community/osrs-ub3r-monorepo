@@ -13,14 +13,14 @@ val structures: DevicePacketStructureMap by inject()
 val masks = structures.playerUpdate(Device.Desktop)
 
 masks.order {
-    -MovementPermMask::class
     -DirectionMask::class
-    -MovementTempMask::class
     -AppearanceMask::class
+    -MovementTempMask::class
+    -MovementPermMask::class
 }
 
 masks.register<BitMask> {
-    mask = 64
+    mask = 128
     write {
         if (packed >= 255) {
             val bitmask = packed or mask
@@ -33,28 +33,28 @@ masks.register<BitMask> {
 }
 
 masks.register<DirectionMask> {
-    mask = 1
+    mask = 32
     write {
         it.writeShortAdd(angle)
     }
 }
 
 masks.register<MovementPermMask> {
-    mask = 1024
+    mask = 2048
     write {
         it.writeByte(type)
     }
 }
 
 masks.register<MovementTempMask> {
-    mask = 2048
+    mask = 4096
     write {
         it.writeByteSub(type)
     }
 }
 
 masks.register<AppearanceMask> {
-    mask = 2
+    mask = 1
     write {
         val appBuf = it.alloc().buffer()
         appBuf.writeByte(gender)
@@ -81,7 +81,7 @@ masks.register<AppearanceMask> {
         appBuf.writeShort(0) /* unknown */
         appBuf.writeBoolean(invisible)
 
-        it.writeByteSub(appBuf.writerIndex())
-        it.writeBytesAdd(appBuf)
+        it.writeByte(appBuf.writerIndex())
+        it.writeBytesReversed(appBuf)
     }
 }

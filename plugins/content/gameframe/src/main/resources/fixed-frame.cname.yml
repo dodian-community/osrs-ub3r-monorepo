@@ -1,7 +1,7 @@
 ---
 - name: chatbox_fixed
   parent: gameframe_fixed
-  child: 32
+  child: 10
 - name: interface_651_component
   parent: gameframe_fixed
   child: 16
@@ -13,49 +13,49 @@
   child: 15
 - name: frame_orbs_fixed
   parent: gameframe_fixed
-  child: 11
+  child: 8
 - name: attack_tab_fixed
   parent: gameframe_fixed
-  child: 75
+  child: 79
 - name: skill_tab_fixed
   parent: gameframe_fixed
-  child: 76
+  child: 80
 - name: activity_tab_fixed
   parent: gameframe_fixed
-  child: 77
+  child: 81
 - name: quest_tab_fixed
   parent: activity_tab
   child: 33
 - name: inventory_tab_fixed
   parent: gameframe_fixed
-  child: 78
+  child: 82
 - name: equipment_tab_fixed
   parent: gameframe_fixed
-  child: 79
+  child: 83
 - name: prayer_tab_fixed
   parent: gameframe_fixed
-  child: 80
+  child: 84
 - name: magic_tab_fixed
   parent: gameframe_fixed
-  child: 81
+  child: 85
 - name: clan_chat_tab_fixed
   parent: gameframe_fixed
-  child: 82
+  child: 86
 - name: community_tab_fixed
   parent: gameframe_fixed
-  child: 83
+  child: 87
 - name: social_tab_fixed
   parent: gameframe_fixed
-  child: 84
+  child: 88
 - name: logout_tab_fixed
   parent: gameframe_fixed
-  child: 85
+  child: 89
 - name: settings_tab_fixed
   parent: gameframe_fixed
-  child: 86
+  child: 90
 - name: emotes_tab_fixed
   parent: gameframe_fixed
-  child: 87
+  child: 91
 - name: music_tab_fixed
   parent: gameframe_fixed
-  child: 88
+  child: 92
