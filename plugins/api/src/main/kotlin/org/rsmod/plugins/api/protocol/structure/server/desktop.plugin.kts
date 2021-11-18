@@ -80,7 +80,7 @@ packets.register<VarpLarge> {
 }
 
 packets.register<RunClientScript> {
-    opcode = 21
+    opcode = 28
     length = PacketLength.Short
     write {
         val types = CharArray(args.size) { i -> if (args[i] is String) 's' else 'i' }
@@ -106,32 +106,32 @@ packets.register<MessageGame> {
     }
 }
 
+packets.register<UpdateRunEnergy> {
+    opcode = 49
+    write {
+        it.writeByte(energy)
+    }
+}
 
-//packets.register<UpdateStat> {
-//    opcode = 19
-//    write {
-//        it.writeByteSub(currLevel)
-//        it.writeIntME(xp)
-//        it.writeByteSub(skill)
-//    }
-//}
-//
-//packets.register<UpdateRunEnergy> {
-//    opcode = 73
-//    write {
-//        it.writeByte(energy)
-//    }
-//}
-//
-//packets.register<ResetClientVarCache> {
-//    opcode = 90
-//    write {}
-//}
-//
-//packets.register<ResetAnims> {
-//    opcode = 64
-//    write {}
-//}
+packets.register<ResetClientVarCache> {
+    opcode = 52
+    write {}
+}
+
+packets.register<ResetAnims> {
+    opcode = 76
+    write {}
+}
+
+packets.register<UpdateStat> {
+    opcode = 23
+    write {
+        it.writeByteSub(skill)
+        it.writeIntME(xp)
+        it.writeByteAdd(currLevel)
+    }
+}
+
 //
 //packets.register<NpcInfoSmallViewport> {
 //    opcode = 43

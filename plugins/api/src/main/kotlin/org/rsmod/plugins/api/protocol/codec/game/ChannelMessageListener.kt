@@ -14,16 +14,16 @@ class ChannelMessageListener(
         PlayerInfo::class,
         IfOpenTop::class,
         IfOpenSub::class,
-        //ResetClientVarCache::class,
-        //ResetAnims::class,
+        ResetClientVarCache::class,
+        ResetAnims::class,
         IfSetText::class,
         //NpcInfoSmallViewport::class,
-        //UpdateStat::class,
+        UpdateStat::class,
         MessageGame::class,
-        //UpdateRunEnergy::class,
+        UpdateRunEnergy::class,
         VarpSmall::class,
         VarpLarge::class,
-        //RunClientScript::class
+        RunClientScript::class
     )
 
     override fun write(packet: ServerPacket) {
