@@ -18,7 +18,7 @@ val structures: DevicePacketStructureMap by inject()
 val packets = structures.server(Device.Desktop)
 
 packets.register<RebuildNormal> {
-    opcode = 1
+    opcode = 47
     length = PacketLength.Short
     write {
         val xteas = xteasBuffer(viewport, xteas)

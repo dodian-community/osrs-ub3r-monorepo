@@ -10,6 +10,7 @@ import io.guthix.js5.container.disk.Js5DiskStore
 import io.guthix.js5.util.XTEA_ZERO_KEY
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
+import org.rsmod.util.security.HuffmanCodec
 import java.nio.file.Path
 
 class GameCache(
@@ -82,4 +83,15 @@ class GameCache(
     fun read(archive: Int, group: Int): ByteBuf = store.read(archive, group).retain()
 
     fun groupIds(archive: Int): List<Int> = cache.readArchive(archive).groupSettings.map { it.key }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun findGroupByName(archive: Int, name: String): Js5Group {
+        return archive(archive).readGroup(name)
+    }
+
+    fun huffman(): HuffmanCodec {
+        val group = findGroupByName(10, "huffman")
+        val huffmanData = group.files[0]?.data ?: error("Couldn't get Huffman data from cache.")
+        return HuffmanCodec(huffmanData.array())
+    }
 }

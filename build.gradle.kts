@@ -37,7 +37,7 @@ allprojects {
     }
 
     tasks.withType<JavaCompile> {
-        options.release.set(11)
+        options.release.set(17)
     }
 
     tasks.withType<KotlinCompile> {
@@ -49,12 +49,14 @@ allprojects {
 
     plugins.withType<KotlinterPlugin> {
         configure<KotlinterExtension> {
+            ignoreFailures = true
             disabledRules = arrayOf(
                 "filename",
                 /* https://github.com/pinterest/ktlint/issues/764 */
                 "parameter-list-wrapping",
                 /* https://github.com/pinterest/ktlint/issues/527 */
-                "import-ordering"
+                "import-ordering",
+                "no-wildcard-imports"
             )
         }
     }

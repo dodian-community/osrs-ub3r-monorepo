@@ -243,18 +243,18 @@ class LoginDecoder(
         val checksum = checksumHandler.read(buf)
         val crcs = checksum.crcs
 
-        for (i in crcs.indices) {
-            val received = crcs[i]
-            val expected = cacheCrcs[i]
-            if (received != 0 && received != expected) {
-                logger.debug {
-                    "Cache crc out-of-date (archive=$i, clientCrc=$received, " +
-                        "serverCrc=$expected, username=$username, channel=${channel()})"
-                }
-                out.add(ResponseType.JS5_OUT_OF_DATE)
-                return
-            }
-        }
+        //for (i in crcs.indices) {
+        //    val received = crcs[i]
+        //    val expected = cacheCrcs[i]
+        //    if (received != 0 && received != expected) {
+        //        logger.debug {
+        //            "Cache crc out-of-date (archive=$i, clientCrc=$received, " +
+        //                "serverCrc=$expected, username=$username, channel=${channel()})"
+        //        }
+        //        out.add(ResponseType.JS5_OUT_OF_DATE)
+        //        return
+        //    }
+        //}
 
         val request = LoginRequest(
             channel = channel(),

@@ -36,10 +36,36 @@ packets.register<MoveMinimapClick> {
     }
 }
 
-packets.register<ClientPacket> {
-    opcode = 0
-    length = 0
+packets.register<IfButton> {
+    val typeOpcodes = listOf(17, 18, 19, 0, 39, 26, 91, 47, 25)
+    addOpcodes(typeOpcodes)
+    opcode = 22
+    length = 8
+    handler = IfButtonHandler::class
+    read { opcode ->
+        val type = typeOpcodes.indexOf(opcode) + IfButton.TYPE_INDEX_OFFSET
+        val component = readInt()
+        val slot = readShort().toInt()
+        val item = readShort().toInt()
+        IfButton(type, component, slot, item)
+    }
 }
+
+packets.register<GameChat> {
+    opcode = 95
+    length = -1
+    handler = PublicChatHandler::class
+    read {
+        val type = readByte().toInt()
+        val color = readByte().toInt()
+        val effect = readByte().toInt()
+        val length = readByte().toInt()
+        val data = ByteArray(readableBytes())
+        readBytes(data)
+        GameChat(effect, color, length, data, type)
+    }
+}
+
 packets.register<ClientPacket> {
     opcode = 1
     length = -1
@@ -105,18 +131,6 @@ packets.register<ClientPacket> {
     length = 10
 }
 packets.register<ClientPacket> {
-    opcode = 17
-    length = 8
-}
-packets.register<ClientPacket> {
-    opcode = 18
-    length = 8
-}
-packets.register<ClientPacket> {
-    opcode = 19
-    length = 8
-}
-packets.register<ClientPacket> {
     opcode = 20
     length = 4
 }
@@ -125,24 +139,12 @@ packets.register<ClientPacket> {
     length = 2
 }
 packets.register<ClientPacket> {
-    opcode = 22
-    length = 8
-}
-packets.register<ClientPacket> {
     opcode = 23
     length = 3
 }
 packets.register<ClientPacket> {
     opcode = 24
     length = 13
-}
-packets.register<ClientPacket> {
-    opcode = 25
-    length = 8
-}
-packets.register<ClientPacket> {
-    opcode = 26
-    length = 8
 }
 packets.register<ClientPacket> {
     opcode = 27
@@ -193,10 +195,6 @@ packets.register<ClientPacket> {
     length = 4
 }
 packets.register<ClientPacket> {
-    opcode = 39
-    length = 8
-}
-packets.register<ClientPacket> {
     opcode = 40
     length = -1
 }
@@ -223,10 +221,6 @@ packets.register<ClientPacket> {
 packets.register<ClientPacket> {
     opcode = 46
     length = 3
-}
-packets.register<ClientPacket> {
-    opcode = 47
-    length = 8
 }
 packets.register<ClientPacket> {
     opcode = 48
@@ -397,10 +391,6 @@ packets.register<ClientPacket> {
     length = 7
 }
 packets.register<ClientPacket> {
-    opcode = 91
-    length = 8
-}
-packets.register<ClientPacket> {
     opcode = 92
     length = 15
 }
@@ -411,10 +401,6 @@ packets.register<ClientPacket> {
 packets.register<ClientPacket> {
     opcode = 94
     length = 8
-}
-packets.register<ClientPacket> {
-    opcode = 95
-    length = -1
 }
 packets.register<ClientPacket> {
     opcode = 97

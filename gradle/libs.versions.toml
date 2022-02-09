@@ -1,19 +1,20 @@
 [versions]
-bouncy-castle = "1.68"
+bouncy-castle = "1.70"
 bcrypt = "0.4"
-classgraph = "4.8.102"
-guice = "5.0.0-BETA-1"
-guthix-bytebuf = "0.1.4"
+classgraph = "4.8.138"
+guice = "5.1.0"
 inline-logger = "1.0.3"
-jackson = "2.12.1"
+jackson = "2.13.1"
 js5Store = "0.4.0"
-junit = "5.7.1"
-jvm = "11"
-kotlin-version = "1.4.0"
-kotlin-guice = "1.4.1"
-kotlin-retry = "1.0.8"
+guthix-bytebuf = "0.1.4"
+junit = "5.8.2"
+jvm = "17"
+kotlin-version = "1.6.10"
+kotlin-coroutines-core = "1.6.0"
+kotlin-guice = "1.5.0"
+kotlin-retry = "1.0.9"
 kotlinter = "3.3.0"
-log4j = "2.14.0"
+log4j = "2.17.1"
 netty = "4.1.63.Final"
 rsmod-pathfinder = "1.2.4"
 
@@ -22,14 +23,14 @@ bouncyCastle = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "boun
 bcrypt = { module = "org.mindrot:jbcrypt", version.ref = "bcrypt" }
 classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
 guice = { module = "com.google.inject:guice", version.ref = "guice" }
-guthixBytebuf = { module = "io.guthix:jagex-bytebuf", version.ref = "guthix-bytebuf" }
 inlineLogger = { module = "com.michael-bull.kotlin-inline-logger:kotlin-inline-logger-jvm", version.ref = "inline-logger" }
 jacksonKotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 jacksonYaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }
 js5Store = { module = "io.guthix:jagex-store-5", version.ref = "js5Store" }
+guthixBytebuf = { module = "io.guthix:jagex-bytebuf", version.ref = "guthix-bytebuf" }
 junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 junitEngine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
-kotlinCoroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-version" }
+kotlinCoroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines-core" }
 kotlinGuice = { module = "dev.misfitlabs.kotlinguice4:kotlin-guice", version.ref = "kotlin-guice" }
 kotlinReflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin-version" }
 kotlinRetry = { module = "com.michael-bull.kotlin-retry:kotlin-retry", version.ref = "kotlin-retry" }

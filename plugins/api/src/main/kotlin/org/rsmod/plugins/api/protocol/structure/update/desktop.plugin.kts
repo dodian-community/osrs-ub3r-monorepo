@@ -1,19 +1,22 @@
 package org.rsmod.plugins.api.protocol.structure.update
 
 import io.guthix.buffer.*
+import io.netty.buffer.Unpooled
+import org.rsmod.game.cache.GameCache
+import org.rsmod.game.event.impl.ChatMessage
 import org.rsmod.plugins.api.protocol.Device
-import org.rsmod.plugins.api.protocol.packet.update.AppearanceMask
-import org.rsmod.plugins.api.protocol.packet.update.BitMask
-import org.rsmod.plugins.api.protocol.packet.update.DirectionMask
-import org.rsmod.plugins.api.protocol.packet.update.MovementPermMask
-import org.rsmod.plugins.api.protocol.packet.update.MovementTempMask
+import org.rsmod.plugins.api.protocol.packet.update.*
 import org.rsmod.plugins.api.protocol.structure.DevicePacketStructureMap
 
 val structures: DevicePacketStructureMap by inject()
+val cache: GameCache by inject()
 val masks = structures.playerUpdate(Device.Desktop)
+
+val huffman = cache.huffman()
 
 masks.order {
     -DirectionMask::class
+    -PublicChat::class
     -AppearanceMask::class
     -MovementTempMask::class
     -MovementPermMask::class
@@ -29,6 +32,28 @@ masks.register<BitMask> {
         } else {
             it.writeByte(packed and 255)
         }
+    }
+}
+
+masks.register<PublicChat> {
+    mask = 16
+    write {
+        val huffmanData = ByteArray(message.text.length)
+        huffman.compress(message.text, huffmanData)
+
+        val compressed = Unpooled.compositeBuffer(2).apply {
+            addComponents(
+                true,
+                Unpooled.buffer(2).apply { writeSmallSmart(message.text.length) },
+                Unpooled.wrappedBuffer(huffmanData)
+            )
+        }
+
+        it.writeShortAdd((message.color.id shl 8) or message.effect.id)
+        it.writeByteNeg(message.icon)
+        it.writeByte(if (message.type == ChatMessage.ChatType.AUTOCHAT) 1 else 0)
+        it.writeByte(compressed.readableBytes())
+        it.writeBytesAdd(compressed)
     }
 }
 

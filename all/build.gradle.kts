@@ -18,6 +18,10 @@ dependencies {
     implementation(libs.nettyAll)
     implementation(libs.jacksonKotlin)
     implementation(libs.kotlinCoroutinesCore)
+
+    implementation("io.ktor:ktor-server-core:1.4.0")
+    implementation("io.ktor:ktor-server-netty:1.4.0")
+    implementation("ch.qos.logback:logback-classic:1.2.5")
 }
 
 tasks.register<JavaExec>("cache-pack") {

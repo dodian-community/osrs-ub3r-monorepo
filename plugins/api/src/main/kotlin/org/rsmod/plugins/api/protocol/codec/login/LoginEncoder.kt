@@ -75,7 +75,7 @@ object LoginEncoder : MessageToByteEncoder<LoginResponse>() {
     private fun ByteBuf.writeResponse(response: LoginResponse.Error) {
         val errors = response.errors
         val messages = errors.subList(0, MAX_CUSTOM_ERROR_LINES)
-        val length = messages.sumBy { it.length }
+        val length = messages.sumOf { it.length }
 
         if (errors.size > MAX_CUSTOM_ERROR_LINES) {
             logger.warn { "Login error response can only send a maximum of $MAX_CUSTOM_ERROR_LINES strings" }

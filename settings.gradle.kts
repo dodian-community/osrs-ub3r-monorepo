@@ -13,7 +13,7 @@ include("all")
 
 pluginManagement {
     plugins {
-        kotlin("jvm") version "1.4.0"
+        kotlin("jvm") version "1.6.10"
         id("org.jmailen.kotlinter") version "3.3.0"
     }
 }
