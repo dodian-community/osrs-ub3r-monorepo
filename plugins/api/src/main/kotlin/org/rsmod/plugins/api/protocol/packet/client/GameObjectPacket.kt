@@ -1,5 +1,6 @@
 package org.rsmod.plugins.api.protocol.packet.client
 
+import com.github.michaelbull.logging.InlineLogger
 import org.rsmod.game.action.ActionBus
 import org.rsmod.game.message.ClientPacket
 import org.rsmod.game.message.ClientPacketHandler
@@ -17,6 +18,8 @@ import org.rsmod.plugins.api.protocol.packet.ObjectAction
 import org.rsmod.plugins.api.protocol.packet.ObjectClick
 import org.rsmod.plugins.api.util.extractBitValue
 import javax.inject.Inject
+
+private val logger = InlineLogger()
 
 private const val FORCE_RUN_TYPE = 1
 
@@ -42,6 +45,7 @@ class OpLoc1Handler @Inject constructor(
         val approach = objApSet.contains(type.id)
         val option = ObjectAction.Option1(player, obj)
         val click = ObjectClick(player, packet.mode.moveType(), option, approach)
+        logger.debug { "Handling OpLoc1: $click"}
         actionBus.publish(click)
     }
 }
@@ -61,6 +65,7 @@ class OpLoc2Handler @Inject constructor(
         val approach = objApSet.contains(type.id)
         val option = ObjectAction.Option2(player, obj)
         val click = ObjectClick(player, packet.mode.moveType(), option, approach)
+        logger.debug { "Handling OpLoc2: $click"}
         actionBus.publish(click)
     }
 }

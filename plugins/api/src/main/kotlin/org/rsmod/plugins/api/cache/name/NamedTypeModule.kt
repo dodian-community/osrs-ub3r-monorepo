@@ -4,6 +4,8 @@ import com.google.inject.Provider
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
 import org.rsmod.game.name.NamedTypeLoaderList
+import org.rsmod.plugins.api.cache.name.cs2.Cs2NameLoader
+import org.rsmod.plugins.api.cache.name.cs2.Cs2NameMap
 import org.rsmod.plugins.api.cache.name.item.ItemNameLoader
 import org.rsmod.plugins.api.cache.name.item.ItemNameMap
 import org.rsmod.plugins.api.cache.name.npc.NpcNameLoader
@@ -32,6 +34,7 @@ class NamedTypeModule(private val scope: Scope) : KotlinModule() {
         bind<ComponentNameMap>().`in`(scope)
         bind<VarpNameMap>().`in`(scope)
         bind<VarbitNamedMap>().`in`(scope)
+        bind<Cs2NameMap>().`in`(scope)
     }
 }
 
@@ -41,7 +44,8 @@ private class NamedTypeLoaderListProvider @Inject constructor(
     private val objList: ObjectNameLoader,
     private val interfaceList: UserInterfaceNameLoader,
     private val varpList: VarpNameLoader,
-    private val varbitList: VarbitNameLoader
+    private val varbitList: VarbitNameLoader,
+    private val scriptList: Cs2NameLoader
 ) : Provider<NamedTypeLoaderList> {
 
     override fun get() = NamedTypeLoaderList().apply {
@@ -51,5 +55,6 @@ private class NamedTypeLoaderListProvider @Inject constructor(
         register(interfaceList)
         register(varpList)
         register(varbitList)
+        register(scriptList)
     }
 }

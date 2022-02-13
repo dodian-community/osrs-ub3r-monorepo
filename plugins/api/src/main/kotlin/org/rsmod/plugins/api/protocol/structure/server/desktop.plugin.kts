@@ -46,6 +46,14 @@ packets.register<IfOpenSub> {
     }
 }
 
+packets.register<IfMoveSub> {
+    opcode = 36
+    write {
+        it.writeIntLE(from)
+        it.writeIntLE(to)
+    }
+}
+
 packets.register<PlayerInfo> {
     opcode = 38
     length = PacketLength.Short
@@ -76,6 +84,15 @@ packets.register<VarpLarge> {
     write {
         it.writeIntLE(value)
         it.writeShort(id)
+    }
+}
+
+packets.register<UpdateStat> {
+    opcode = 23
+    write {
+        it.writeByteSub(skill)
+        it.writeIntME(xp)
+        it.writeByteAdd(currLevel)
     }
 }
 
@@ -123,12 +140,13 @@ packets.register<ResetAnims> {
     write {}
 }
 
-packets.register<UpdateStat> {
-    opcode = 23
+packets.register<IfSetEvents> {
+    opcode = 71
     write {
-        it.writeByteSub(skill)
-        it.writeIntME(xp)
-        it.writeByteAdd(currLevel)
+        it.writeIntIME(events)
+        it.writeInt(component)
+        it.writeShort(dynamic.last)
+        it.writeShortAdd(dynamic.first)
     }
 }
 

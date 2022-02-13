@@ -38,7 +38,7 @@ class CollisionMapLoader @Inject constructor(
         xteas.forEach { (mapSquare, keys) ->
             MapSquare(mapSquare).load(archive, keys)
         }
-        logger.info { "Loaded ${xteas.size} mapsquare collision data" }
+        logger.info { "Loaded ${xteas.size} map-square collision data" }
     }
 
     private fun MapSquare.load(archive: Js5Archive, keys: IntArray) {

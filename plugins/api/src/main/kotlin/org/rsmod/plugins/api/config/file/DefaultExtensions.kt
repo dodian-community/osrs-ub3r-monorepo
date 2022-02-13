@@ -9,6 +9,7 @@ object DefaultExtensions {
     const val INTERFACE_NAMES = "uiname"
     const val VARP_NAMES = "vname"
     const val VARBIT_NAMES = "vbname"
+    const val SCRIPT_NAMES = "sname"
 
     const val NPC_CONFIGS = "npc"
     const val ITEM_CONFIGS = "item"
@@ -25,6 +26,7 @@ object DefaultExtensions {
         INTERFACE_NAMES,
         VARP_NAMES,
         VARBIT_NAMES,
+        SCRIPT_NAMES,
 
         /* config files */
         NPC_CONFIGS,

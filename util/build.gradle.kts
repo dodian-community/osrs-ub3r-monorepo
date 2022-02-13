@@ -1,8 +1,8 @@
 dependencies {
-    implementation(libs.bcrypt)
-    implementation(libs.bouncyCastle)
-    implementation(libs.jacksonKotlin)
-    implementation(libs.jacksonYaml)
+    implementation("org.mindrot:jbcrypt:0.4")
+    implementation("org.bouncycastle:bcprov-jdk15on:1.70")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.1")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.1")
 
     implementation("com.mashape.unirest:unirest-java:1.4.9")
 }

@@ -48,6 +48,7 @@ class GameConfigProvider @Inject constructor(
         val port: Int = config["port"] ?: DEFAULT_PORT
         val home: List<Int> = config["home"] ?: DEFAULT_HOME
         val envString: String = config["env"] ?: DEFAULT_ENV.toString()
+        val defaultGameFrame: Int = config["default-game-frame"] ?: DEFAULT_GAME_FRAME
 
         val revision: Number = config["revision"] ?: error("Game config revision required.")
         val majorRevision: Int
@@ -82,7 +83,8 @@ class GameConfigProvider @Inject constructor(
             dataPath = dataPath,
             pluginPath = pluginPath,
             home = home.coordinates(),
-            env = env
+            env = env,
+            defaultGameFrame = defaultGameFrame
         )
     }
 
@@ -112,6 +114,7 @@ class GameConfigProvider @Inject constructor(
         private const val DEFAULT_MINOR_REVISION = 1
         private val DEFAULT_HOME = listOf(3200, 3200)
         private val DEFAULT_ENV = GameEnv.Production
+        private val DEFAULT_GAME_FRAME = 0
 
         private const val TESTING_ENV_IDENTIFIER = "test"
         private const val DEVELOPMENT_ENV_IDENTIFIER = "dev"

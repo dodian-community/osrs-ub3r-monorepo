@@ -25,7 +25,7 @@ private annotation class TaskBuilderDslMarker
 class UpdateTaskBuilder(private val tasks: MutableList<UpdateTask>) {
 
     operator fun <T : UpdateTask> T.unaryMinus() {
-        logger.debug { "Append update task to list (task=${this::class.simpleName})" }
+        logger.trace { "Append update task to list (task=${this::class.simpleName})" }
         tasks.add(this)
     }
 }

@@ -4,7 +4,8 @@ import java.nio.file.Path
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-rootProject.name = "rsmod"
+rootProject.name = "dodian-game-server"
+
 include("util")
 include("game")
 include("plugins")

@@ -1,11 +1,6 @@
 package org.rsmod.plugins.api.model.ui
 
-import org.rsmod.game.event.impl.CloseModal
-import org.rsmod.game.event.impl.CloseOverlay
-import org.rsmod.game.event.impl.CloseTopLevel
-import org.rsmod.game.event.impl.OpenModal
-import org.rsmod.game.event.impl.OpenOverlay
-import org.rsmod.game.event.impl.OpenTopLevel
+import org.rsmod.game.event.impl.*
 import org.rsmod.game.model.item.type.ItemType
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.npc.type.NpcType
@@ -16,7 +11,7 @@ import org.rsmod.game.model.ui.InterfaceList
 import org.rsmod.game.model.ui.UserInterface
 import org.rsmod.game.model.ui.type.ComponentType
 import org.rsmod.game.model.ui.type.InterfaceType
-import org.rsmod.plugins.api.model.ui.gameframe.Gameframe
+import org.rsmod.plugins.api.model.ui.gameframe.GameFrame
 import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
 import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
@@ -27,7 +22,7 @@ import org.rsmod.plugins.api.protocol.packet.server.IfSetObject
 import org.rsmod.plugins.api.protocol.packet.server.IfSetPlayerHead
 import org.rsmod.plugins.api.protocol.packet.server.IfSetText
 
-fun Player.openGameframe(frame: Gameframe) {
+fun Player.openGameFrame(frame: GameFrame) {
     openTopLevel(frame.topLevel)
     frame.components.values.forEach { component ->
         openOverlay(component.inter, component.target)
@@ -163,7 +158,7 @@ fun Player.setComponentEvents(
     range: IntRange,
     vararg events: InterfaceEvent
 ) {
-    val packed = events.sumBy { it.flag }
+    val packed = events.sumOf { it.flag }
     val event = DynamicComponentEvent(range, packed)
     val property = ui.properties.getOrPut(component) { ComponentProperty() }
 

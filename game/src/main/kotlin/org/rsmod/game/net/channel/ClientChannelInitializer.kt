@@ -12,7 +12,7 @@ class ClientChannelInitializer(
 ) : ChannelInitializer<SocketChannel>() {
 
     override fun initChannel(ch: SocketChannel) {
-        logger.debug { "Initialize channel (channel=$ch)" }
+        logger.trace { "Initialize channel (channel=$ch)" }
         ch.pipeline().addLast(handshakeDecoder())
     }
 }

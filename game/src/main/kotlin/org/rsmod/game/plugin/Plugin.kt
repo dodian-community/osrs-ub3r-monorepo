@@ -8,6 +8,7 @@ import org.rsmod.game.action.ActionExecutor
 import org.rsmod.game.cmd.CommandMap
 import org.rsmod.game.event.Event
 import org.rsmod.game.event.EventBus
+import org.rsmod.game.model.cs2.Cs2Type
 import org.rsmod.game.model.item.type.ItemType
 import org.rsmod.game.model.npc.type.NpcType
 import org.rsmod.game.model.obj.type.ObjectType
@@ -38,6 +39,8 @@ open class Plugin(
     private val varpNames: NamedTypeMap<VarpType> by inject()
 
     private val varbitNames: NamedTypeMap<VarbitType> by inject()
+
+    private val scriptNames: NamedTypeMap<Cs2Type> by inject()
 
     inline fun <reified T : Event> onEvent() = eventBus.subscribe<T>()
 
@@ -83,6 +86,10 @@ open class Plugin(
 
     fun varbit(name: String): VarbitType {
         return varbitNames[name] ?: error("Varbit with name \"$name\" not found.")
+    }
+
+    fun script(name: String): Int {
+        return scriptNames[name]?.id ?: error("Script with name \"$name\" not found.")
     }
 
     fun npcs(vararg names: String): Iterable<NpcType> {

@@ -1,8 +1,8 @@
 ---
-gameframe_fixed: 548
-gameframe_resize_normal: 161
-gameframe_resize_list: 164
-gameframe_fullscreen: 165
+game_frame_fixed: 548
+game_frame_classic: 161
+game_frame_modern: 164
+game_frame_fullscreen: 165
 chatbox: 162
 interface_651: 651
 chatbox_username: 163
@@ -23,3 +23,4 @@ emotes_tab: 216
 music_tab: 239
 clan_chat_tab: 7
 attack_tab: 593
+all_settings: 122

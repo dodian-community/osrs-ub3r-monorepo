@@ -1,0 +1,10 @@
+---
+- name: all_settings_button
+  parent: settings_tab
+  child: 73
+- name: display_settings_tab
+  parent: settings_tab
+  child: 110
+- name: client_layout_dropdown
+  parent: settings_tab
+  child: 82

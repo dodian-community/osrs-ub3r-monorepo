@@ -32,7 +32,7 @@ class ObjectNameGenerator @Inject constructor(
 
     private fun ObjectType.internalName(): String {
         val normalized = name.normalizeForNamedMap()
-        val name = normalized.toLowerCase().replace(" ", "_")
+        val name = normalized.lowercase().replace(" ", "_")
         return name.stripTags() + "_" + id
     }
 }

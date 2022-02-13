@@ -1,5 +1,6 @@
 package org.rsmod.game.model.item.container
 
+import com.google.common.base.MoreObjects
 import org.rsmod.game.model.ui.Component
 
 open class ItemContainerKey(
@@ -9,6 +10,12 @@ open class ItemContainerKey(
     val clientId: Int? = null,
     val component: Component? = null
 ) {
+
+    override fun toString() = MoreObjects.toStringHelper(this)
+        .add("name", name)
+        .add("capacity", capacity)
+        .add("stack", stack::class.simpleName)
+        .toString()
 
     companion object {
 

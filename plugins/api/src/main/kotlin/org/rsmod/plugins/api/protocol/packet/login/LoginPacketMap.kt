@@ -17,7 +17,7 @@ class LoginPacketMap(
             error("Login packet type already has a handler (packet=${T::class.simpleName}).")
         }
         val handler = LoginPacketHandler(read)
-        logger.debug { "Register login packet handler (type=${T::class.simpleName})" }
+        logger.trace { "Register login packet handler (type=${T::class.simpleName})" }
         packets[T::class] = handler
     }
 

@@ -58,7 +58,7 @@ class UpdateMaskPacketMap(
         } else if (handlers.values.any { it.mask == handler.mask }) {
             error("Update mask handler already exists (mask=${handler.mask.formatMask()})")
         }
-        logger.debug { "Register update mask handler (type=${T::class.simpleName}, mask=${handler.mask.formatMask()})" }
+        logger.trace { "Register update mask handler (type=${T::class.simpleName}, mask=${handler.mask.formatMask()})" }
         handlers[T::class] = handler
     }
 
@@ -110,7 +110,7 @@ class UpdateMaskPacketBuilder<T : UpdateMask>(
 class UpdateMaskOrderBuilder(private val order: MutableList<KClass<out UpdateMask>>) {
 
     operator fun KClass<out UpdateMask>.unaryMinus() {
-        logger.debug { "Append update mask order (type=${this.simpleName})" }
+        logger.trace { "Append update mask order (type=${this.simpleName})" }
         order.add(this)
     }
 }

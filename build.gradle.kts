@@ -3,8 +3,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jmailen.gradle.kotlinter.KotlinterExtension
 import org.jmailen.gradle.kotlinter.KotlinterPlugin
 
-val libsAlias = libs
-
 plugins {
     kotlin("jvm")
     id("org.jmailen.kotlinter") apply false
@@ -27,13 +25,14 @@ allprojects {
 
     dependencies {
         implementation(kotlin("stdlib-jdk8"))
-        implementation(libsAlias.kotlinReflect)
-        implementation(libsAlias.guice)
-        implementation(libsAlias.kotlinGuice)
-        implementation(libsAlias.slf4j)
-        implementation(libsAlias.inlineLogger)
-        testImplementation(libsAlias.junit)
-        testImplementation(libsAlias.junitEngine)
+        implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
+        implementation("com.google.inject:guice:5.1.0")
+        implementation("dev.misfitlabs.kotlinguice4:kotlin-guice:1.5.0")
+        implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.17.1")
+        implementation("com.michael-bull.kotlin-inline-logger:kotlin-inline-logger-jvm:1.0.3")
+
+        testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+        testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
     }
 
     tasks.withType<JavaCompile> {

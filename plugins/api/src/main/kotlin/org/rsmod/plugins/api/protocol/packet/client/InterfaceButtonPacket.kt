@@ -9,6 +9,12 @@ import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.ui.Component
 import org.rsmod.plugins.api.protocol.packet.ButtonClick
 
+data class IfSomething(
+    val something1: Int,
+    val something2: Int,
+    val something3: Int
+) : ClientPacket
+
 data class IfButton(
     val clickType: Int,
     val component: Int,

@@ -47,8 +47,15 @@ packets.register<IfButton> {
         val component = readInt()
         val slot = readShort().toInt()
         val item = readShort().toInt()
-        IfButton(type, component, slot, item)
+        val ifButton = IfButton(type, component, slot, item)
+        logger.trace { "Clicking Button: $ifButton" }
+        ifButton
     }
+}
+
+packets.register<ClientPacket> {
+    opcode = 61
+    length = 6
 }
 
 packets.register<GameChat> {
@@ -63,6 +70,34 @@ packets.register<GameChat> {
         val data = ByteArray(readableBytes())
         readBytes(data)
         GameChat(effect, color, length, data, type)
+    }
+}
+
+packets.register<OpLoc1> {
+    opcode = 80
+    length = 7
+    handler = OpLoc1Handler::class
+    read {
+        val x = readShortLE().toInt()
+        val y = readShort().toInt()
+        val id = readShortAdd().toInt()
+        val mode = readByte().toInt()
+
+        OpLoc1(id = id, x = x, y = y, mode = mode)
+    }
+}
+
+packets.register<OpLoc2> {
+    opcode = 90
+    length = 7
+    handler = OpLoc2Handler::class
+    read {
+        val x = readShortLE().toInt()
+        val mode = readByte().toInt()
+        val id = readShort().toInt()
+        val y = readShortAddLE().toInt()
+
+        OpLoc2(id = id, x = x, y = y, mode = mode)
     }
 }
 
@@ -275,10 +310,6 @@ packets.register<ClientPacket> {
     length = -2
 }
 packets.register<ClientPacket> {
-    opcode = 61
-    length = 6
-}
-packets.register<ClientPacket> {
     opcode = 62
     length = 0
 }
@@ -351,10 +382,6 @@ packets.register<ClientPacket> {
     length = 1
 }
 packets.register<ClientPacket> {
-    opcode = 80
-    length = 7
-}
-packets.register<ClientPacket> {
     opcode = 81
     length = 3
 }
@@ -385,10 +412,6 @@ packets.register<ClientPacket> {
 packets.register<ClientPacket> {
     opcode = 89
     length = 16
-}
-packets.register<ClientPacket> {
-    opcode = 90
-    length = 7
 }
 packets.register<ClientPacket> {
     opcode = 92

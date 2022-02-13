@@ -8,9 +8,9 @@ private annotation class BuilderDsl
 
 @BuilderDsl
 class GameframeBuilder(
-    var type: GameframeType? = null,
+    var type: GameFrameType? = null,
     var topLevel: String = "",
-    private val components: MutableMap<String, GameframeNameComponent> = mutableMapOf()
+    private val components: MutableMap<String, GameFrameNameComponent> = mutableMapOf()
 ) {
 
     fun component(init: GameframeComponentBuilder.() -> Unit) {
@@ -19,25 +19,25 @@ class GameframeBuilder(
         components[component.target] = component
     }
 
-    fun build(interfaceMap: UserInterfaceNameMap, componentMap: ComponentNameMap): Gameframe {
+    fun build(interfaceMap: UserInterfaceNameMap, componentMap: ComponentNameMap): GameFrame {
         val type = type ?: error("Gameframe type must be set")
         val topLevel = interfaceMap.getValue(topLevel)
         val components = components.toComponentMap(interfaceMap, componentMap)
-        return Gameframe(type, topLevel, components)
+        return GameFrame(type, topLevel, components)
     }
 
-    private fun Map<String, GameframeNameComponent>.toComponentMap(
+    private fun Map<String, GameFrameNameComponent>.toComponentMap(
         interfaces: UserInterfaceNameMap,
         components: ComponentNameMap
-    ): GameframeComponentMap {
+    ): GameFrameComponentMap {
         val map = entries.associate { entry ->
             val component = entry.value
             val name = component.name
             val inter = interfaces.getValue(component.inter)
             val target = components.getValue(component.target)
-            name to GameframeComponent(component.name, inter, target)
+            name to GameFrameComponent(component.name, inter, target)
         }
-        return GameframeComponentMap(LinkedHashMap(map))
+        return GameFrameComponentMap(LinkedHashMap(map))
     }
 }
 
@@ -48,9 +48,9 @@ class GameframeComponentBuilder(
     var target: String = ""
 ) {
 
-    fun build(): GameframeNameComponent {
+    fun build(): GameFrameNameComponent {
         check(name.isNotBlank()) { "Component name must be set" }
-        return GameframeNameComponent(
+        return GameFrameNameComponent(
             name = name,
             inter = inter,
             target = target

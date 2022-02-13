@@ -37,7 +37,7 @@ enum class ResponseType(val id: Int) {
 object ResponseEncoder : MessageToByteEncoder<ResponseType>() {
 
     override fun encode(ctx: ChannelHandlerContext, msg: ResponseType, out: ByteBuf) {
-        logger.debug { "Encode response (type=$msg, channel=${ctx.channel()})" }
+        logger.trace { "Encode response (type=$msg, channel=${ctx.channel()})" }
         out.writeByte(msg.id)
     }
 }

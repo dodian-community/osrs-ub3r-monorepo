@@ -25,12 +25,15 @@ import org.rsmod.game.model.npc.type.NpcType
 import org.rsmod.game.model.snapshot.Snapshot
 import org.rsmod.game.model.stat.StatMap
 import org.rsmod.game.model.ui.InterfaceList
+import org.rsmod.game.model.ui.type.ComponentType
 import org.rsmod.game.model.vars.VarpMap
+import org.rsmod.game.name.NamedTypeMap
 import org.rsmod.game.privilege.Privilege
 import org.rsmod.game.queue.GameQueueStack
 import org.rsmod.game.queue.QueueType
 import org.rsmod.game.timer.TimerMap
 import java.time.LocalDateTime
+import javax.inject.Inject
 
 private val logger = InlineLogger()
 
@@ -96,6 +99,7 @@ class Player(
     val bank: ItemContainer = ItemContainer(),
     val containers: ItemContainerMap = ItemContainerMap(),
     val ui: InterfaceList = InterfaceList(),
+    var displayMode: Int = 0,
     val varpMap: VarpMap = VarpMap(),
     var runEnergy: Double = DEFAULT_RUN_ENERGY,
     val privileges: MutableList<Privilege> = mutableListOf(),

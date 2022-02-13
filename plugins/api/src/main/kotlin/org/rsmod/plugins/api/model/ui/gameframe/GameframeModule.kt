@@ -6,6 +6,6 @@ import dev.misfitlabs.kotlinguice4.KotlinModule
 class GameframeModule(private val scope: Scope) : KotlinModule() {
 
     override fun configure() {
-        bind<GameframeList>().`in`(scope)
+        bind<GameFrameList>().`in`(scope)
     }
 }

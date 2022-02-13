@@ -13,7 +13,8 @@ data class GameConfig(
     val dataPath: Path,
     val pluginPath: Path,
     val home: Coordinates,
-    val env: GameEnv
+    val env: GameEnv,
+    val defaultGameFrame: Int
 ) {
 
     val cachePath: Path

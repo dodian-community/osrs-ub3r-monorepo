@@ -39,6 +39,7 @@ class GameSessionDecoder(
 
     private fun ByteBuf.readOpcode(channel: Channel, out: MutableList<Any>) {
         opcode = readModifiedOpcode()
+
         val structure = structures[opcode]
         if (structure == null) {
             logger.error { "Structure for packet not defined (opcode=$opcode, channel=$channel)" }

@@ -21,7 +21,7 @@ class ServerPacketStructureMap(
         }
         structures[T::class] = structure
 
-        logger.debug {
+        logger.trace {
             "Register server packet structure (packet=${T::class.simpleName}, " +
                 "opcode=${structure.opcode}, length=${structure.length::class.simpleName})"
         }
@@ -53,7 +53,7 @@ class ClientPacketStructureMap(
             structures[structure.opcode] = structure
         }
 
-        logger.debug {
+        logger.trace {
             val reference = structureList.first()
             val packet = T::class.simpleName
             val handler = reference.handler?.let { "handler=${it::class.simpleName}, " } ?: ""

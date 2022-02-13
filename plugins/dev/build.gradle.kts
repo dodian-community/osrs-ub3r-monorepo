@@ -1,5 +1,5 @@
 group = "org.rsmod.plugins.dev"
 
 dependencies {
-    implementation(projects.plugins.api)
+    implementation(project(":plugins:api"))
 }

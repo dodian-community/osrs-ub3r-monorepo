@@ -7,11 +7,11 @@ import javax.inject.Inject
 
 private val logger = InlineLogger()
 
-class GameframeList(
+class GameFrameList(
     private val interfaces: UserInterfaceNameMap,
     private val components: ComponentNameMap,
-    private val frames: MutableMap<GameframeType, Gameframe>
-) : Map<GameframeType, Gameframe> by frames {
+    private val frames: MutableMap<GameFrameType, GameFrame>
+) : Map<GameFrameType, GameFrame> by frames {
 
     @Inject
     constructor(
@@ -19,15 +19,15 @@ class GameframeList(
         components: ComponentNameMap
     ) : this(interfaces, components, mutableMapOf())
 
-    fun register(frame: Gameframe) {
-        check(!frames.containsKey(frame.type)) { "Gameframe with type already exists (type=${frame.type})" }
-        logger.debug { "Register gameframe (frame=$frame)" }
+    fun register(frame: GameFrame) {
+        check(!frames.containsKey(frame.type)) { "Game frame with type already exists (type=${frame.type})" }
+        logger.debug { "Register game frame (frame=$frame)" }
         frames[frame.type] = frame
     }
 
     fun register(init: GameframeBuilder.() -> Unit) {
         val builder = GameframeBuilder().apply(init)
-        val gameframe = builder.build(interfaces, components)
-        register(gameframe)
+        val gameFrame = builder.build(interfaces, components)
+        register(gameFrame)
     }
 }

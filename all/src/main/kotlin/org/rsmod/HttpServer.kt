@@ -17,6 +17,9 @@ fun main() {
             get("/gamepack.jar") {
                 call.respondFile(File("./all/data/gamepack.jar"))
             }
+            get("/jav_config.ws") {
+                call.respondFile(File("./all/data/jav_config.ws"))
+            }
         }
     }.start(wait = true)
 }

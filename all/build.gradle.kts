@@ -8,16 +8,16 @@ application {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(projects.util)
-    implementation(projects.game)
-    implementation(projects.plugins)
-    findPlugins(projects.plugins).forEach {
+    implementation(project(":util"))
+    implementation(project(":game"))
+    implementation(project(":plugins"))
+    findPlugins(project(":plugins")).forEach {
         implementation(it)
     }
 
-    implementation(libs.nettyAll)
-    implementation(libs.jacksonKotlin)
-    implementation(libs.kotlinCoroutinesCore)
+    implementation("io.netty:netty-all:4.1.63.Final")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 
     implementation("io.ktor:ktor-server-core:1.4.0")
     implementation("io.ktor:ktor-server-netty:1.4.0")

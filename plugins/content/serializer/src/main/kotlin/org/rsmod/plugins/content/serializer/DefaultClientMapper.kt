@@ -61,11 +61,12 @@ class DefaultClientMapper @Inject constructor(
         val player = Player(
             id = PlayerId(data.loginName),
             loginName = data.loginName,
+            displayMode = data.displayMode,
             eventBus = request.eventBus,
             actionBus = request.actionBus,
             entity = entity,
             privileges = privileges.toMutableList(),
-            messageListeners = listOf(request.messageListener)
+            messageListeners = listOf(request.messageListener),
         )
         val client = Client(
             player = player,
@@ -96,6 +97,7 @@ class DefaultClientMapper @Inject constructor(
             loginName = player.loginName,
             displayName = player.username,
             encryptedPass = client.encryptedPass,
+            displayMode = player.displayMode,
             loginXteas = client.loginXteas,
             coords = intArrayOf(entity.coords.x, entity.coords.y, entity.coords.level),
             privileges = player.privileges.map { it.nameId },
@@ -119,7 +121,8 @@ class DefaultClientMapper @Inject constructor(
             eventBus = request.eventBus,
             actionBus = request.actionBus,
             entity = entity,
-            messageListeners = listOf(request.messageListener)
+            messageListeners = listOf(request.messageListener),
+            displayMode = config.defaultGameFrame
         )
         val encryptedPass = encryption.encrypt(password)
         entity.coords = config.home
@@ -144,6 +147,7 @@ data class DefaultClientData(
     val loginName: String,
     val displayName: String,
     val encryptedPass: String,
+    val displayMode: Int,
     val loginXteas: IntArray,
     val coords: IntArray,
     val privileges: List<String>,
@@ -163,6 +167,7 @@ data class DefaultClientData(
         if (loginName != other.loginName) return false
         if (displayName != other.displayName) return false
         if (encryptedPass != other.encryptedPass) return false
+        if (displayMode != other.displayMode) return false
         if (!loginXteas.contentEquals(other.loginXteas)) return false
         if (!coords.contentEquals(other.coords)) return false
         if (privileges != other.privileges) return false
@@ -179,6 +184,7 @@ data class DefaultClientData(
         var result = loginName.hashCode()
         result = 31 * result + displayName.hashCode()
         result = 31 * result + encryptedPass.hashCode()
+        result = 31 * result + displayMode.hashCode()
         result = 31 * result + loginXteas.contentHashCode()
         result = 31 * result + coords.contentHashCode()
         result = 31 * result + privileges.hashCode()

@@ -1,17 +1,15 @@
-package org.rsmod.plugins.content.gameframe
+import org.rsmod.plugins.api.model.ui.gameframe.GameFrameList
+import org.rsmod.plugins.api.model.ui.gameframe.GameFrameModern
 
-import org.rsmod.plugins.api.model.ui.gameframe.GameframeFixed
-import org.rsmod.plugins.api.model.ui.gameframe.GameframeList
-
-val frames: GameframeList by inject()
+val frames: GameFrameList by inject()
 
 frames.register {
-    type = GameframeFixed
-    topLevel = "gameframe_fixed"
+    type = GameFrameModern
+    topLevel = "game_frame_modern"
     component {
         name = "chatbox"
         inter = "chatbox"
-        target = "chatbox_fixed"
+        target = "chatbox_normal"
     }
     component {
         name = "interface_651"
@@ -36,71 +34,76 @@ frames.register {
     component {
         name = "attack_tab"
         inter = "attack_tab"
-        target = "attack_tab_fixed"
+        target = "attack_tab_modern"
     }
     component {
         name = "skill_tab"
         inter = "skill_tab"
-        target = "skill_tab_fixed"
+        target = "skill_tab_modern"
     }
     component {
         name = "activity_tab"
         inter = "activity_tab"
-        target = "activity_tab_fixed"
+        target = "activity_tab_modern"
     }
     component {
         name = "inventory_tab"
         inter = "inventory_tab"
-        target = "inventory_tab_fixed"
+        target = "inventory_tab_modern"
     }
     component {
         name = "equipment_tab"
         inter = "equipment_tab"
-        target = "equipment_tab_fixed"
+        target = "equipment_tab_modern"
     }
     component {
         name = "prayer_tab"
         inter = "prayer_tab"
-        target = "prayer_tab_fixed"
+        target = "prayer_tab_modern"
     }
     component {
         name = "magic_tab"
         inter = "magic_tab"
-        target = "magic_tab_fixed"
+        target = "magic_tab_modern"
     }
     component {
         name = "clan_chat_tab"
         inter = "clan_chat_tab"
-        target = "clan_chat_tab_fixed"
+        target = "clan_chat_tab_modern"
     }
     component {
         name = "social_tab"
         inter = "social_tab"
-        target = "social_tab_fixed"
+        target = "social_tab_modern"
     }
     component {
         name = "community_tab"
         inter = "community_tab"
-        target = "community_tab_fixed"
+        target = "community_tab_modern"
     }
     component {
         name = "logout_tab"
         inter = "logout_tab"
-        target = "logout_tab_fixed"
+        target = "logout_tab_modern"
     }
     component {
         name = "settings_tab"
         inter = "settings_tab"
-        target = "settings_tab_fixed"
+        target = "settings_tab_modern"
     }
     component {
         name = "emotes_tab"
         inter = "emotes_tab"
-        target = "emotes_tab_fixed"
+        target = "emotes_tab_modern"
     }
     component {
         name = "music_tab"
         inter = "music_tab"
-        target = "music_tab_fixed"
+        target = "music_tab_modern"
+    }
+    component {
+        name = "quest_tab"
+        inter = "quest_tab"
+        target = "quest_tab"
     }
 }
