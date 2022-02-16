@@ -8,9 +8,7 @@ import org.rsmod.plugins.api.model.mob.player.sendMessage
 import org.rsmod.plugins.api.model.mob.player.sendRunEnergy
 import org.rsmod.plugins.api.model.mob.player.setVarp
 import org.rsmod.plugins.api.model.ui.gameframe.GameFrameList
-import org.rsmod.plugins.api.model.ui.gameframe.GameFrameClassic
-import org.rsmod.plugins.api.model.ui.gameframe.GameFrameFixed
-import org.rsmod.plugins.api.model.ui.gameframe.GameFrameModern
+import org.rsmod.plugins.api.model.ui.gameframe.GameFrameResizeClassic
 import org.rsmod.plugins.api.model.ui.openGameFrame
 import org.rsmod.plugins.api.onEarlyLogin
 import org.rsmod.plugins.api.onLogin
@@ -28,13 +26,7 @@ onLogin {
 }
 
 onEarlyLogin {
-    val frame = when (player.displayMode) {
-        1 -> frames.getValue(GameFrameClassic)
-        2 -> frames.getValue(GameFrameModern)
-        else -> frames.getValue(GameFrameFixed)
-    }
-
-    player.openGameFrame(frame)
+    player.openGameFrame(frames.getValue(GameFrameResizeClassic))
     player.sendEarlyLogin()
 }
 
@@ -45,8 +37,8 @@ fun Player.sendLogin() {
 }
 
 fun Player.sendEarlyLogin() {
-    setVarp(varp1, 0)
+    setVarp(varp1, 1)
     setVarp(varp2, -1)
-    runClientScript(1105, 1)
+    runClientScript(script("skill_guide_sidepanelop"), 1)
     sendRunEnergy()
 }

@@ -1,6 +1,8 @@
 package org.rsmod.plugins.api.model.ui
 
+import com.github.michaelbull.logging.InlineLogger
 import org.rsmod.game.event.impl.*
+import org.rsmod.game.model.enum.type.EnumType
 import org.rsmod.game.model.item.type.ItemType
 import org.rsmod.game.model.mob.Player
 import org.rsmod.game.model.npc.type.NpcType
@@ -12,15 +14,9 @@ import org.rsmod.game.model.ui.UserInterface
 import org.rsmod.game.model.ui.type.ComponentType
 import org.rsmod.game.model.ui.type.InterfaceType
 import org.rsmod.plugins.api.model.ui.gameframe.GameFrame
-import org.rsmod.plugins.api.protocol.packet.server.IfCloseSub
-import org.rsmod.plugins.api.protocol.packet.server.IfOpenSub
-import org.rsmod.plugins.api.protocol.packet.server.IfOpenTop
-import org.rsmod.plugins.api.protocol.packet.server.IfSetAnim
-import org.rsmod.plugins.api.protocol.packet.server.IfSetEvents
-import org.rsmod.plugins.api.protocol.packet.server.IfSetNpcHead
-import org.rsmod.plugins.api.protocol.packet.server.IfSetObject
-import org.rsmod.plugins.api.protocol.packet.server.IfSetPlayerHead
-import org.rsmod.plugins.api.protocol.packet.server.IfSetText
+import org.rsmod.plugins.api.protocol.packet.server.*
+
+private val logger = InlineLogger()
 
 fun Player.openGameFrame(frame: GameFrame) {
     openTopLevel(frame.topLevel)

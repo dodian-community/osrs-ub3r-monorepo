@@ -8,6 +8,7 @@ dependencies {
 }
 
 tasks.create<JavaExec>("createRsa") {
+    group = "dodian-setup"
     classpath = sourceSets.main.get().runtimeClasspath
     description = "Creates RSA key pair"
     mainClass.set("org.rsmod.util.security.RsaGenerator")
@@ -19,7 +20,7 @@ tasks.create<JavaExec>("createRsa") {
 }
 
 tasks.create<JavaExec>("downloadPlugins") {
-    group = "plugin-hub"
+    group = "runelite-plugin-hub"
 
     classpath = sourceSets.main.get().runtimeClasspath
     description = "Download plugins from official RuneLite plugin hub"
@@ -27,7 +28,7 @@ tasks.create<JavaExec>("downloadPlugins") {
 }
 
 tasks.create<JavaExec>("verifyKeys") {
-    group = "plugin-hub"
+    group = "runelite-plugin-hub"
 
     classpath = sourceSets.main.get().runtimeClasspath
     description = "Validate public and private key for your RuneLite plugin hub"

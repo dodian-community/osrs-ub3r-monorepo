@@ -20,9 +20,3 @@
 - name: auto_retaliate_button
   parent: attack_tab
   child: 30
-- name: run_orb_button
-  parent: frame_orbs
-  child: 22
-- name: logout_button
-  parent: logout_tab
-  child: 8

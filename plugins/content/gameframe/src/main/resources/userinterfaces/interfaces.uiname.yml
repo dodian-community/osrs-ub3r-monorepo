@@ -1,7 +1,7 @@
 ---
 game_frame_fixed: 548
-game_frame_classic: 161
-game_frame_modern: 164
+game_frame_resize_classic: 161
+game_frame_resize_modern: 164
 game_frame_fullscreen: 165
 chatbox: 162
 interface_651: 651

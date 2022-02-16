@@ -9,6 +9,7 @@ import org.rsmod.game.cmd.CommandMap
 import org.rsmod.game.event.Event
 import org.rsmod.game.event.EventBus
 import org.rsmod.game.model.cs2.Cs2Type
+import org.rsmod.game.model.enum.type.EnumType
 import org.rsmod.game.model.item.type.ItemType
 import org.rsmod.game.model.npc.type.NpcType
 import org.rsmod.game.model.obj.type.ObjectType
@@ -41,6 +42,8 @@ open class Plugin(
     private val varbitNames: NamedTypeMap<VarbitType> by inject()
 
     private val scriptNames: NamedTypeMap<Cs2Type> by inject()
+
+    private val enumNames: NamedTypeMap<EnumType> by inject()
 
     inline fun <reified T : Event> onEvent() = eventBus.subscribe<T>()
 
@@ -90,6 +93,10 @@ open class Plugin(
 
     fun script(name: String): Int {
         return scriptNames[name]?.id ?: error("Script with name \"$name\" not found.")
+    }
+
+    fun enum(name: String): EnumType {
+        return enumNames[name] ?: error("Enum with name \"$name\" not found.")
     }
 
     fun npcs(vararg names: String): Iterable<NpcType> {

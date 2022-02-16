@@ -7,7 +7,7 @@ import org.rsmod.plugins.api.cache.name.ui.UserInterfaceNameMap
 private annotation class BuilderDsl
 
 @BuilderDsl
-class GameframeBuilder(
+class GameFrameBuilder(
     var type: GameFrameType? = null,
     var topLevel: String = "",
     private val components: MutableMap<String, GameFrameNameComponent> = mutableMapOf()

@@ -25,8 +25,8 @@ class GameFrameList(
         frames[frame.type] = frame
     }
 
-    fun register(init: GameframeBuilder.() -> Unit) {
-        val builder = GameframeBuilder().apply(init)
+    fun register(init: GameFrameBuilder.() -> Unit) {
+        val builder = GameFrameBuilder().apply(init)
         val gameFrame = builder.build(interfaces, components)
         register(gameFrame)
     }

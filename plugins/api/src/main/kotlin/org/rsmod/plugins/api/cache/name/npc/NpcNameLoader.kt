@@ -45,11 +45,13 @@ class NpcNameLoader @Inject constructor(
     private fun loadAliasFile(file: Path): Int {
         var count = 0
         Files.newInputStream(file).use { input ->
-            val nodes = mapper.readValue(input, LinkedHashMap<String, Int>()::class.java)
+            val nodes = mapper.readValue(input, LinkedHashMap<String, String>()::class.java)
             nodes.forEach { node ->
                 val key = node.key
                 val value = node.value
-                val type = types[value]
+                val type = names[value] ?: error(
+                    "Type with name does not exist (name=$value, file=${file.fileName}, path=${file.toAbsolutePath()})"
+                )
                 names[key] = type
                 count++
             }

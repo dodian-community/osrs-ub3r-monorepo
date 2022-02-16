@@ -8,6 +8,8 @@ import org.rsmod.game.cache.CacheModule
 import org.rsmod.game.cache.GameCache
 import org.rsmod.game.cache.type.CacheTypeLoaderList
 import org.rsmod.game.config.ConfigModule
+import org.rsmod.plugins.api.cache.name.enum.EnumNameGenerator
+import org.rsmod.plugins.api.cache.name.enum.EnumNameLoader
 import org.rsmod.plugins.api.cache.name.item.ItemNameGenerator
 import org.rsmod.plugins.api.cache.name.item.ItemNameLoader
 import org.rsmod.plugins.api.cache.name.npc.NpcNameGenerator
@@ -27,13 +29,15 @@ private const val NAME_DIRECTORY = "name"
 class NameGenerator @Inject constructor(
     private val npcGenerator: NpcNameGenerator,
     private val itemGenerator: ItemNameGenerator,
-    private val objGenerator: ObjectNameGenerator
+    private val objGenerator: ObjectNameGenerator,
+    private val enumGenerator: EnumNameGenerator
 ) {
 
     fun generate(basePath: Path) {
         npcGenerator.generate(basePath.resolve(NpcNameLoader.FILE_NAME))
         itemGenerator.generate(basePath.resolve(ItemNameLoader.FILE_NAME))
         objGenerator.generate(basePath.resolve(ObjectNameLoader.FILE_NAME))
+        enumGenerator.generate(basePath.resolve(EnumNameLoader.FILE_NAME))
     }
 
     companion object {

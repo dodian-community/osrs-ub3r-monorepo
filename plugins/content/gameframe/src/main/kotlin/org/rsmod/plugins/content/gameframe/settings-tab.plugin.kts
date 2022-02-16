@@ -1,10 +1,13 @@
 import com.github.michaelbull.logging.InlineLogger
-import org.rsmod.game.model.mob.Player
+import org.rsmod.game.model.enum.type.EnumType
+import org.rsmod.game.model.ui.Component
+import org.rsmod.game.model.ui.type.InterfaceType
 import org.rsmod.plugins.api.*
-import org.rsmod.plugins.api.model.mob.player.runClientScript
-import org.rsmod.plugins.api.model.mob.player.setVarbit
-import org.rsmod.plugins.api.model.ui.*
+import org.rsmod.plugins.api.model.mob.player.sendMessage
+import org.rsmod.plugins.api.model.ui.closeOverlay
+import org.rsmod.plugins.api.model.ui.closeTopLevel
 import org.rsmod.plugins.api.model.ui.gameframe.*
+import org.rsmod.plugins.api.model.ui.openTopLevel
 import org.rsmod.plugins.api.protocol.packet.server.IfMoveSub
 
 private val logger = InlineLogger()
@@ -12,61 +15,61 @@ private val logger = InlineLogger()
 val frames: GameFrameList by inject()
 
 onButton(component("client_layout_dropdown")) {
-    val fixed = frames.getValue(GameFrameFixed)
-    val classic = frames.getValue(GameFrameClassic)
-    val modern = frames.getValue(GameFrameModern)
+    if (player.displayMode == child - 1) return@onButton
 
-    val gameFrame = when (child) {
-        2 -> classic
-        3 -> modern
-        else -> fixed
-    }
+    player.sendMessage("We're now gonna change to display mode: $child")
 
-    if (player.displayMode == child) return@onButton
-
-    val newMode = child
-    val oldMode = player.displayMode
-    player.displayMode = newMode
-
-    player.openTopLevel(gameFrame.topLevel)
+    val topLevel: InterfaceType
+    val newModeEnum: EnumType
 
     when (child) {
-        1 -> {
-            player.closeTopLevel(classic.topLevel)
-            player.closeTopLevel(modern.topLevel)
-        }
         2 -> {
-            player.closeTopLevel(fixed.topLevel)
-            player.closeTopLevel(modern.topLevel)
+            topLevel = inter("game_frame_resize_classic")
+            newModeEnum = enum("game_frame_resize_classic")
         }
         3 -> {
-            player.closeTopLevel(fixed.topLevel)
-            player.closeTopLevel(classic.topLevel)
+            topLevel = inter("game_frame_resize_modern")
+            newModeEnum = enum("game_frame_resize_modern")
+        }
+        else -> {
+            topLevel = inter("game_frame_fixed")
+            newModeEnum = enum("game_frame_fixed")
         }
     }
 
-    val fromParent = when (oldMode) {
-        1 -> inter("game_frame_classic").id
-        2 -> inter("game_frame_modern").id
-        else -> inter("game_frame_fixed").id
+    val oldModeEnum = when (player.displayMode + 1) {
+        2 -> enum("game_frame_resize_classic")
+        3 -> enum("game_frame_resize_modern")
+        else -> enum("game_frame_fixed")
     }
-    val toParent = gameFrame.topLevel.id
 
-    gameFrame.components.values.forEach { component ->
-        player.ui.overlays.filterValues { inter ->
-            inter.id == component.inter.id
-        }.values.forEach {
-            player.write(IfMoveSub(from = (fromParent shl 16) or it.id, to = (toParent shl 16) or it.id))
+    player.ui.topLevel.forEach {
+        player.closeTopLevel(it)
+    }
+    player.openTopLevel(topLevel)
+
+    oldModeEnum.intValues.forEachIndexed { index, it ->
+        val oldParent = it shr 16
+        val oldChild = it and 0xffff
+        val newPacked = newModeEnum.intValues[index]
+        val newParent = newPacked shr 16
+        val newChild = newPacked and 0xffff
+
+        val overlayInterface = player.ui.overlays[Component(it)]
+        player.ui.overlays.remove(Component(it))
+        if (overlayInterface != null) {
+            player.ui.overlays[Component(newPacked)] = overlayInterface
         }
-        player.ui.modals.filterValues { inter ->
-            inter.id == component.inter.id
-        }.values.forEach {
-            player.write(IfMoveSub(from = (fromParent shl 16) or it.id, to = (toParent shl 16) or it.id))
+
+        if (oldParent shl 16 or oldChild != -1 && newParent shl 16 or newChild != -1) {
+            val ifMoveSub = IfMoveSub(from = (oldParent shl 16) or oldChild, to = (newParent shl 16) or newChild)
+            logger.debug { "Sending $ifMoveSub" }
+            player.write(ifMoveSub)
         }
     }
 }
 
-onObj(obj("bank_booth_10356"), "Bank") {
+onObj(obj("null_10356"), "Bank") {
     logger.info { "Banking?" }
     player.logout()
 }

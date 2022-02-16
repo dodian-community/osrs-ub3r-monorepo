@@ -1,8 +1,8 @@
-package org.rsmod.plugins.api.cache.name.item
+package org.rsmod.plugins.api.cache.name.enum
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.michaelbull.logging.InlineLogger
-import org.rsmod.game.model.item.type.ItemTypeList
+import org.rsmod.game.model.enum.type.EnumTypeList
 import org.rsmod.game.name.NamedTypeLoader
 import org.rsmod.plugins.api.config.file.DefaultExtensions
 import org.rsmod.plugins.api.config.file.NamedConfigFileMap
@@ -12,11 +12,11 @@ import javax.inject.Inject
 
 private val logger = InlineLogger()
 
-class ItemNameLoader @Inject constructor(
+class EnumNameLoader @Inject constructor(
     private val mapper: ObjectMapper,
     private val files: NamedConfigFileMap,
-    private val names: ItemNameMap,
-    private val types: ItemTypeList
+    private val names: EnumNameMap,
+    private val types: EnumTypeList
 ) : NamedTypeLoader {
 
     override fun load(directory: Path) {
@@ -25,7 +25,7 @@ class ItemNameLoader @Inject constructor(
             loadNameFile(defaultNameFile)
         }
         val initialSize = names.size
-        val files = files.getValue(DefaultExtensions.ITEM_NAMES)
+        val files = files.getValue(DefaultExtensions.ENUM_NAMES)
         val aliasSize = files.sumOf { loadAliasFile(it) }
         logger.info { "Loaded $initialSize item type names ($aliasSize ${if (aliasSize != 1) "aliases" else "alias"})" }
     }
@@ -61,6 +61,6 @@ class ItemNameLoader @Inject constructor(
 
     companion object {
 
-        const val FILE_NAME = "items.yml"
+        const val FILE_NAME = "enums.yml"
     }
 }

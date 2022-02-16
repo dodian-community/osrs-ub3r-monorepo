@@ -4,11 +4,13 @@ import com.google.inject.Provider
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
 import org.rsmod.game.cache.type.CacheTypeLoaderList
+import org.rsmod.game.model.enum.type.EnumTypeList
 import org.rsmod.game.model.item.type.ItemTypeList
 import org.rsmod.game.model.npc.type.NpcTypeList
 import org.rsmod.game.model.obj.type.ObjectTypeList
 import org.rsmod.game.model.vars.type.VarbitTypeList
 import org.rsmod.game.model.vars.type.VarpTypeList
+import org.rsmod.plugins.api.cache.type.enum.EnumTypeLoader
 import org.rsmod.plugins.api.cache.type.item.ItemTypeLoader
 import org.rsmod.plugins.api.cache.type.npc.NpcTypeLoader
 import org.rsmod.plugins.api.cache.type.obj.ObjectTypeLoader
@@ -32,6 +34,7 @@ class TypeLoaderModule(private val scope: Scope) : KotlinModule() {
         bind<VarbitTypeList>().`in`(scope)
         bind<ComponentTypeList>().`in`(scope)
         bind<InterfaceTypeList>().`in`(scope)
+        bind<EnumTypeList>().`in`(scope)
     }
 }
 
@@ -41,7 +44,8 @@ private class CacheTypeLoaderListProvider @Inject constructor(
     private val itemLoader: ItemTypeLoader,
     private val varpLoader: VarpTypeLoader,
     private val varbitLoader: VarbitTypeLoader,
-    private val componentLoader: ComponentTypeLoader
+    private val componentLoader: ComponentTypeLoader,
+    private val enumTypeLoader: EnumTypeLoader
 ) : Provider<CacheTypeLoaderList> {
 
     override fun get(): CacheTypeLoaderList {
@@ -52,6 +56,7 @@ private class CacheTypeLoaderListProvider @Inject constructor(
             register(varpLoader)
             register(varbitLoader)
             register(componentLoader)
+            register(enumTypeLoader)
         }
     }
 }

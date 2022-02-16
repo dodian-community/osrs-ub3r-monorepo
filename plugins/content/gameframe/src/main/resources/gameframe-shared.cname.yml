@@ -1,4 +1,0 @@
----
-- name: quest_tab
-  parent: activity_tab
-  child: 33

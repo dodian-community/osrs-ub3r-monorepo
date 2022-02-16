@@ -18,17 +18,20 @@ subprojects {
     }
 
     tasks.register("install") {
+        group = "dodian-plugins"
         copyResources(project)
     }
 }
 
 tasks.register("install-plugins") {
+    group = "dodian-plugins"
     subprojects.forEach { project ->
         copyResources(project)
     }
 }
 
 tasks.register("install-plugins-fresh") {
+    group = "dodian-plugins"
     file(pluginConfigDir).deleteRecursively()
     subprojects.forEach { project ->
         copyResources(project)

@@ -1,0 +1,5 @@
+game_frame_fixed: enum_1129
+game_frame_resize_classic: enum_1130
+game_frame_resize_modern: enum_1131
+game_frame_full_screen: enum_1132
+game_frame_mobile: enum_1745
