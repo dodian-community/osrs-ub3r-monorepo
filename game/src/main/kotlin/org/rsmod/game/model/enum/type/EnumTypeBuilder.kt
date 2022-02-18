@@ -16,7 +16,6 @@ class EnumTypeBuilder(
     var id: Int = DEFAULT_ID,
 
     var size: Int = DEFAULT_INT_VALUE,
-    var keys: IntArray = DEFAULT_INT_ARRAY,
 
     var keyType: EnumVarType = DEFAULT_KEY_TYPE,
     var valueType: EnumVarType = DEFAULT_KEY_TYPE,
@@ -24,21 +23,18 @@ class EnumTypeBuilder(
     var defaultString: String = DEFAULT_STRING_VALUE,
     var defaultInt: Int = DEFAULT_INT_VALUE,
 
-    var stringValues: Array<String> = DEFAULT_STRING_ARRAY,
-    var intValues: IntArray = DEFAULT_INT_ARRAY,
+    var values: MutableMap<Int, Any> = mutableMapOf(),
 ) {
 
     fun build(): EnumType {
         return EnumType(
             id = id,
             size = size,
-            keys = keys.asList(),
             keyType = keyType,
             valueType = valueType,
             defaultString = defaultString,
             defaultInt = defaultInt,
-            stringValues = stringValues.asList(),
-            intValues = intValues.asList()
+            values = values
         )
     }
 }

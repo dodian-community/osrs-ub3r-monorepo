@@ -6,7 +6,6 @@ data class EnumType(
     override val id: Int,
 
     val size: Int,
-    val keys: List<Int>,
 
     val keyType: EnumVarType,
     val valueType: EnumVarType,
@@ -14,15 +13,21 @@ data class EnumType(
     val defaultString: String,
     val defaultInt: Int,
 
-    val stringValues: List<String>,
-    val intValues: List<Int>,
-) : ConfigType
+    val values: Map<Int, Any>
+) : ConfigType {
+
+    fun keyByPackedValue(packedValue: Int): Int? {
+        val keys = values.filterValues { it == packedValue }.keys
+        return if (keys.size != 1) null else keys.first()
+    }
+}
 
 enum class EnumVarType(val keyChar: Char, val fullName: String) {
     INTEGER('i', "integer"),
     BOOLEAN('1', "boolean"),
     SEQ('A', "seq"),
     COLOUR('C', "colour"),
+
     /**
      * Also known as {@code Widget}.
      */
@@ -36,16 +41,19 @@ enum class EnumVarType(val keyChar: Char, val fullName: String) {
     FONT_METRICS('f', "font-metrics"),
     ENUM('g', "enum"),
     JINGLE('j', "jingle"),
+
     /**
      * Also known as {@code ObjectType}.
      */
     LOC('l', "loc"),
     MODEL('m', "model"),
     NPC('n', "npc"),
+
     /**
      * Also known as {@code ItemType}.
      */
     OBJ('o', "obj"),
+
     /**
      * Another version of {@code OBJ}, but means that on Jagex's side they used the internal name for an item.
      */
@@ -64,5 +72,4 @@ enum class EnumVarType(val keyChar: Char, val fullName: String) {
     CATEGORY('y', "category"),
 }
 
-fun Char.toEnumVarType(): EnumVarType
-    = EnumVarType.values().single { it.keyChar == this }
+fun Char.toEnumVarType(): EnumVarType = EnumVarType.values().single { it.keyChar == this }

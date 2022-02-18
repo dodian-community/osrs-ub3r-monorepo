@@ -57,9 +57,9 @@ class NpcUpdateTask @Inject constructor(
     private fun CoroutineScope.launchGni() = launch {
         clientList.forEach { client ->
             launch {
-                val largeViewport = client.player.largeNpcViewport
-                val buf = client.gniBuffer(largeViewport)
-                val info = viewportInfoPacket(buf, largeViewport)
+                val isLargeViewport = client.player.largeNpcViewport
+                val buf = client.gniBuffer(isLargeViewport)
+                val info = viewportInfoPacket(buf, isLargeViewport)
                 client.player.write(info)
             }
         }
@@ -196,12 +196,13 @@ class NpcUpdateTask @Inject constructor(
         val npcId = if (npc.entity.transform != -1) npc.entity.transform else npc.id
         val rotation = DIRECTION_ROT.getValue(npc.faceDirection())
         writeBits(value = npc.index, amount = 15)
-        writeBits(value = diffX, amount = if (largeViewport) 8 else 5)
         writeBits(value = npcId, amount = 14)
-        writeBits(value = rotation, amount = 3)
+        writeBits(value = diffX, amount = if (largeViewport) 8 else 5)
         writeBoolean(maskUpdate)
+        writeBits(value = rotation, amount = 3)
         writeBoolean(false) /* not walking */
         writeBits(value = diffY, amount = if (largeViewport) 8 else 5)
+        writeBoolean(false) // Unused yet(?)
     }
 
     private fun ByteBuf.writeMaskUpdate(

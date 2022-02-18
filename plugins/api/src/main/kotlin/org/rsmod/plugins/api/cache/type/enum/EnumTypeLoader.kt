@@ -51,22 +51,14 @@ class EnumTypeLoader @Inject constructor(
             4 -> defaultInt = buf.readInt()
             5 -> {
                 size = buf.readUnsignedShort()
-                keys = IntArray(size)
-                stringValues = Array(size) { "" }
-
                 for (i in 0 until size) {
-                    keys[i] = buf.readInt()
-                    stringValues[i] = buf.readStringCP1252()
+                    values[buf.readInt()] = buf.readStringCP1252()
                 }
             }
             6 -> {
                 size = buf.readUnsignedShort()
-                keys = IntArray(size)
-                intValues = IntArray(size)
-
                 for (i in 0 until size) {
-                    keys[i] = buf.readInt()
-                    intValues[i] = buf.readInt()
+                    values[buf.readInt()] = buf.readInt()
                 }
             }
             else -> throw IOException("Error unrecognised enum config code: $instruction")

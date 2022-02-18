@@ -15,7 +15,7 @@ class CommandMap(
             error("Command with name has already been registered (cmd=$name)")
         }
         val cmd = builder.build()
-        logger.trace { "Register command (cmd=$name, desc=${cmd.description})" }
+        logger.debug { "Register command (cmd=$name, desc=${cmd.description})" }
         commands[lowercase] = cmd
     }
 }

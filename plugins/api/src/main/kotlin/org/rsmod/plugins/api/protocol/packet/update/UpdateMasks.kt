@@ -5,11 +5,13 @@ package org.rsmod.plugins.api.protocol.packet.update
 import org.rsmod.game.event.impl.ChatMessage
 import org.rsmod.game.update.mask.UpdateMask
 
-inline class PublicChat(val message: ChatMessage): UpdateMask {
+inline class BitMask(val packed: Int) : UpdateMask
+
+class FacePawnMask(val pawnIndex: Int) : UpdateMask
+
+class PublicChat(val message: ChatMessage): UpdateMask {
     companion object
 }
-
-inline class BitMask(val packed: Int) : UpdateMask
 
 inline class DirectionMask(val angle: Int) : UpdateMask {
     companion object

@@ -32,7 +32,7 @@ class PublicChatHandler @Inject constructor(
         val effect = ChatMessage.ChatEffect.values.firstOrNull { it.id == packet.effect } ?: ChatMessage.ChatEffect.NONE
         val color = ChatMessage.ChatColor.values.firstOrNull { it.id == packet.color } ?: ChatMessage.ChatColor.NONE
 
-        val message = ChatMessage(unpacked, 0, type, effect, color)
+        val message = ChatMessage(unpacked, player.privileges.first().clientId, type, effect, color)
 
         // TODO: Message queue system?
 

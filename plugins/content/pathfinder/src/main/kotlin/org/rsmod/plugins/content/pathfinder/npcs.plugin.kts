@@ -31,8 +31,7 @@ onAction<NpcClick> {
 }
 
 fun Player.publishAction(action: NpcAction, type: NpcType) {
-    val published = actionBus.publish(action, type.id)
-    if (!published) {
+    if (!actionBus.publish(action, type.id)) {
         warn { "Unhandled npc action: $action" }
     }
 }

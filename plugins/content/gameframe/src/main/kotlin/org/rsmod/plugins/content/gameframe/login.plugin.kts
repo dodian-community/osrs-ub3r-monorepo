@@ -2,16 +2,14 @@ package org.rsmod.plugins.content.gameframe
 
 import org.rsmod.game.config.GameConfig
 import org.rsmod.game.model.mob.Player
-import org.rsmod.plugins.api.model.mob.player.MessageType
-import org.rsmod.plugins.api.model.mob.player.runClientScript
-import org.rsmod.plugins.api.model.mob.player.sendMessage
-import org.rsmod.plugins.api.model.mob.player.sendRunEnergy
-import org.rsmod.plugins.api.model.mob.player.setVarp
+import org.rsmod.game.model.ui.Component
+import org.rsmod.plugins.api.model.mob.player.*
 import org.rsmod.plugins.api.model.ui.gameframe.GameFrameList
 import org.rsmod.plugins.api.model.ui.gameframe.GameFrameResizeClassic
 import org.rsmod.plugins.api.model.ui.openGameFrame
 import org.rsmod.plugins.api.onEarlyLogin
 import org.rsmod.plugins.api.onLogin
+import org.rsmod.plugins.api.protocol.packet.server.IfSetHide
 import org.rsmod.plugins.api.protocol.packet.server.ResetAnims
 import org.rsmod.plugins.api.protocol.packet.server.ResetClientVarCache
 
@@ -34,6 +32,11 @@ fun Player.sendLogin() {
     sendMessage("Welcome to ${config.name}.", MessageType.WELCOME)
     write(ResetClientVarCache)
     write(ResetAnims)
+
+    // Hide PVP Skull
+    write(IfSetHide(Component(161, 3).packed, true))
+    write(IfSetHide(Component(164, 3).packed, true))
+    write(IfSetHide(Component(548, 28).packed, true))
 }
 
 fun Player.sendEarlyLogin() {

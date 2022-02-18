@@ -8,52 +8,55 @@
 - name: chatbox_username
   parent: game_frame_resize_classic
   child: 20
-- name: pvp_skull_fixed
+- name: pvp_skull
   parent: game_frame_resize_classic
-  child: 15
-- name: frame_orbs_fixed
+  child: 3
+- name: main_screen
   parent: game_frame_resize_classic
-  child: 93
-- name: attack_tab_classic
+  child: 17
+- name: frame_orbs
+  parent: game_frame_resize_classic
+  child: 32
+- name: attack_tab
   parent: game_frame_resize_classic
   child: 75
-- name: skill_tab_classic
+- name: skill_tab
   parent: game_frame_resize_classic
   child: 76
-- name: activity_tab_classic
+- name: activity_tab
   parent: game_frame_resize_classic
   child: 77
-- name: inventory_tab_classic
+- name: inventory_tab
   parent: game_frame_resize_classic
   child: 78
-- name: equipment_tab_classic
+- name: equipment_tab
   parent: game_frame_resize_classic
   child: 79
-- name: prayer_tab_classic
+- name: prayer_tab
   parent: game_frame_resize_classic
   child: 80
-- name: magic_tab_classic
+- name: magic_tab
   parent: game_frame_resize_classic
   child: 81
-- name: clan_chat_tab_classic
+- name: clan_chat_tab
   parent: game_frame_resize_classic
   child: 82
-- name: community_tab_classic
+- name: community_tab
   parent: game_frame_resize_classic
   child: 83
-- name: social_tab_classic
+- name: social_tab
   parent: game_frame_resize_classic
   child: 84
-- name: logout_tab_classic
+- name: logout_tab
   parent: game_frame_resize_classic
   child: 85
-- name: settings_tab_classic
+- name: settings_tab
   parent: game_frame_resize_classic
   child: 86
-- name: emotes_tab_classic
+- name: emotes_tab
   parent: game_frame_resize_classic
   child: 87
-- name: music_tab_classic
+- name: music_tab
   parent: game_frame_resize_classic
   child: 88
 - name: quest_tab

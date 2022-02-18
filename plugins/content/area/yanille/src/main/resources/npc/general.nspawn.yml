@@ -1,0 +1,22 @@
+---
+- name: banker_1613
+  face: "W"
+  x: 2615
+  y: 3094
+- name: banker_1613
+  face: "W"
+  x: 2615
+  y: 3092
+- name: banker_1613
+  face: "W"
+  x: 2615
+  y: 3091
+- name: make_over_mage_1307
+  face: "S"
+  x: 2603
+  y: 3088
+  wander: 5
+- name: farmer_3114
+  face: "E"
+  x: 2599
+  y: 3103

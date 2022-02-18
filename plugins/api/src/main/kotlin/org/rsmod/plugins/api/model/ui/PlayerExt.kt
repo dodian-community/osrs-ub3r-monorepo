@@ -16,14 +16,14 @@ import org.rsmod.game.model.ui.type.InterfaceType
 import org.rsmod.plugins.api.model.ui.gameframe.GameFrame
 import org.rsmod.plugins.api.protocol.packet.server.*
 
-private val logger = InlineLogger()
-
 fun Player.openGameFrame(frame: GameFrame) {
     openTopLevel(frame.topLevel)
     frame.components.values.forEach { component ->
         openOverlay(component.inter, component.target)
     }
 }
+
+fun Player.topLevel() = ui.topLevel
 
 fun Player.openTopLevel(userInterface: UserInterface) {
     if (ui.topLevel.contains(userInterface)) {
@@ -45,6 +45,8 @@ fun Player.closeTopLevel(userInterface: UserInterface) {
     ui.topLevel.remove(userInterface)
     submitEvent(event)
 }
+
+fun Player.modals() = ui.modals
 
 fun Player.openModal(
     modal: UserInterface,
@@ -86,6 +88,8 @@ fun Player.closeModal(target: Component) {
     submitEvent(event)
     write(IfCloseSub(target.packed))
 }
+
+fun Player.overlays() = ui.overlays
 
 fun Player.openOverlay(
     overlay: UserInterface,

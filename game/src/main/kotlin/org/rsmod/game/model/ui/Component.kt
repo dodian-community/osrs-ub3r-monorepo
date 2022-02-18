@@ -2,14 +2,16 @@ package org.rsmod.game.model.ui
 
 import com.google.common.base.MoreObjects
 
-inline class UserInterface(val id: Int) {
+@JvmInline
+value class UserInterface(val id: Int) {
 
     fun child(child: Int): Component {
         return Component(id, child)
     }
 }
 
-inline class Component(val packed: Int) {
+@JvmInline
+value class Component(val packed: Int) {
 
     val interfaceId: Int
         get() = (packed shr 16) and 0xFFFF

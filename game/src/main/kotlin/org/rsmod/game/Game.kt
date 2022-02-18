@@ -113,7 +113,7 @@ private suspend fun Npc.cycle(eventBus: EventBus) {
 }
 
 private suspend fun Mob.queueCycle() {
-    /* flag whether or not a new queue should be polled this cycle */
+    /* flag whether a new queue should be polled this cycle */
     val pollQueue = queueStack.idle
     try {
         queueStack.processCurrent()

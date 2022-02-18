@@ -54,6 +54,14 @@ packets.register<IfMoveSub> {
     }
 }
 
+packets.register<IfSetHide> {
+    opcode = 94
+    write {
+        it.writeIntLE(component)
+        it.writeByte(if (hidden) 1 else 0)
+    }
+}
+
 packets.register<PlayerInfo> {
     opcode = 38
     length = PacketLength.Short
@@ -150,14 +158,22 @@ packets.register<IfSetEvents> {
     }
 }
 
-//
-//packets.register<NpcInfoSmallViewport> {
-//    opcode = 43
-//    length = PacketLength.Short
-//    write {
-//        it.writeBytes(buffer)
-//    }
-//}
+packets.register<NpcInfoSmallViewport> {
+    opcode = 95
+    length = PacketLength.Short
+    write {
+        it.writeBytes(buffer)
+    }
+}
+
+packets.register<NpcInfoLargeViewport> {
+    opcode = 96
+    length = PacketLength.Short
+    write {
+        it.writeBytes(buffer)
+    }
+}
+
 //
 //val logger = InlineLogger()
 //

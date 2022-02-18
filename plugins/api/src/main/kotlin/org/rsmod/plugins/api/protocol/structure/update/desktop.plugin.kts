@@ -14,12 +14,29 @@ val masks = structures.playerUpdate(Device.Desktop)
 
 val huffman = cache.huffman()
 
+/**
+ *
+ * 01. mask 4       - Face Pawn
+ * 02. mask 32      - Direction
+ * 03. mask 16      - Public Chat
+ * 04. mask 64      -
+ * 05. mask 1       - Appearance
+ * 06. mask 1024    -
+ * 07. mask 8       -
+ * 08. mask 512     -
+ * 09. mask 4096    - Movement Temp
+ * 10. mask 256     -
+ * 11. mask 2048    - Movement Perm
+ * 12. mask 2       -
+ *
+ */
 masks.order {
-    -DirectionMask::class
-    -PublicChat::class
-    -AppearanceMask::class
-    -MovementTempMask::class
-    -MovementPermMask::class
+    -FacePawnMask::class // mask 4
+    -DirectionMask::class // mask 32
+    -PublicChat::class // mask 16
+    -AppearanceMask::class // mask 1
+    -MovementTempMask::class // mask 4096
+    -MovementPermMask::class // mask 2048
 }
 
 masks.register<BitMask> {
@@ -32,6 +49,20 @@ masks.register<BitMask> {
         } else {
             it.writeByte(packed and 255)
         }
+    }
+}
+
+masks.register<FacePawnMask> {
+    mask = 4
+    write {
+        it.writeShortAdd(pawnIndex)
+    }
+}
+
+masks.register<DirectionMask> {
+    mask = 32
+    write {
+        it.writeShortAdd(angle)
     }
 }
 
@@ -54,27 +85,6 @@ masks.register<PublicChat> {
         it.writeByte(if (message.type == ChatMessage.ChatType.AUTOCHAT) 1 else 0)
         it.writeByte(compressed.readableBytes())
         it.writeBytesAdd(compressed)
-    }
-}
-
-masks.register<DirectionMask> {
-    mask = 32
-    write {
-        it.writeShortAdd(angle)
-    }
-}
-
-masks.register<MovementPermMask> {
-    mask = 2048
-    write {
-        it.writeByte(type)
-    }
-}
-
-masks.register<MovementTempMask> {
-    mask = 4096
-    write {
-        it.writeByteSub(type)
     }
 }
 
@@ -108,5 +118,20 @@ masks.register<AppearanceMask> {
 
         it.writeByte(appBuf.writerIndex())
         it.writeBytesReversed(appBuf)
+    }
+}
+
+
+masks.register<MovementPermMask> {
+    mask = 2048
+    write {
+        it.writeByteNeg(type)
+    }
+}
+
+masks.register<MovementTempMask> {
+    mask = 4096
+    write {
+        it.writeByteSub(type)
     }
 }
