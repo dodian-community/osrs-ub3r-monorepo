@@ -1,6 +1,7 @@
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(project(":util"))
+    implementation(project(":common"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
     implementation("io.github.classgraph:classgraph:4.8.138")
     implementation("org.jetbrains.kotlin:kotlin-scripting-common:1.6.10")

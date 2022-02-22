@@ -6,11 +6,13 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "dodian-game-server"
 
+include("common")
 include("util")
 include("game")
 include("plugins")
 includePlugins(project(":plugins").projectDir.toPath())
-include("all")
+include("game-server")
+include("central-server")
 
 pluginManagement {
     plugins {

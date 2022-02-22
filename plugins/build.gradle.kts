@@ -1,7 +1,7 @@
 val rootPluginDir = projectDir
 val rootPluginBuildDir = buildDir
 
-val appDir = project(":all").projectDir
+val appDir = project(":game-server").projectDir
 val pluginConfigDir = appDir.resolve("plugins").resolve("resources")
 
 subprojects {

@@ -14,6 +14,6 @@ dependencies {
 tasks.create<JavaExec>("generateNames") {
     group = "dodian-setup"
     classpath = sourceSets.main.get().runtimeClasspath
-    workingDir = project(":all").projectDir
+    workingDir = project(":game-server").projectDir
     mainClass.set("org.rsmod.plugins.api.cache.name.NameGenerator")
 }

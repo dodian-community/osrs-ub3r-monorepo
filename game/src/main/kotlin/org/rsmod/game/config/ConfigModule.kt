@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.inject.Provider
 import com.google.inject.Scope
 import dev.misfitlabs.kotlinguice4.KotlinModule
+import net.dodian.common.models.WorldLocation
+import net.dodian.common.models.WorldProperty
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.util.io.pem.PemReader
 import org.rsmod.game.GameEnv
@@ -26,6 +28,10 @@ class ConfigModule(
             .toProvider<GameConfigProvider>()
             .`in`(scope)
 
+        bind<WorldConfig>()
+            .toProvider<WorldConfigProvider>()
+            .`in`(scope)
+
         bind<RsaConfig>()
             .toProvider<RsaConfigProvider>()
             .`in`(scope)
@@ -42,13 +48,14 @@ class GameConfigProvider @Inject constructor(
 
     override fun get(): GameConfig {
         val config = ConfigMap(mapper).load(CONFIG_PATH)
-        val name: String = config["server-name"] ?: DEFAULT_SERVER_NAME
+        val name: String = config["name"] ?: DEFAULT_SERVER_NAME
         val dataPath: Path = config.dataPath("data-path")
         val pluginPath: Path = config.pluginPath("plugin-path")
         val port: Int = config["port"] ?: DEFAULT_PORT
+        val host: String = config["host"] ?: DEFAULT_HOST
         val home: List<Int> = config["home"] ?: DEFAULT_HOME
         val envString: String = config["env"] ?: DEFAULT_ENV.toString()
-        val defaultGameFrame: Int = config["default-game-frame"] ?: DEFAULT_GAME_FRAME
+        val centralServer: String = config["central-server"] ?: "http://127.0.0.1/"
 
         val revision: Number = config["revision"] ?: error("Game config revision required.")
         val majorRevision: Int
@@ -80,11 +87,12 @@ class GameConfigProvider @Inject constructor(
             majorRevision = majorRevision,
             minorRevision = minorRevision,
             port = port,
+            host = host,
             dataPath = dataPath,
             pluginPath = pluginPath,
             home = home.coordinates(),
             env = env,
-            defaultGameFrame = defaultGameFrame
+            centralServer = centralServer
         )
     }
 
@@ -111,14 +119,38 @@ class GameConfigProvider @Inject constructor(
         private val DEFAULT_PLUGIN_PATH = Path.of(".", "plugins")
         private const val DEFAULT_SERVER_NAME = "RS Mod"
         private const val DEFAULT_PORT = 43594
+        private const val DEFAULT_HOST = "127.0.0.1"
         private const val DEFAULT_MINOR_REVISION = 1
         private val DEFAULT_HOME = listOf(3200, 3200)
         private val DEFAULT_ENV = GameEnv.Production
-        private val DEFAULT_GAME_FRAME = 0
 
         private const val TESTING_ENV_IDENTIFIER = "test"
         private const val DEVELOPMENT_ENV_IDENTIFIER = "dev"
         private const val PRODUCTION_ENV_IDENTIFIER = "prod"
+    }
+}
+
+class WorldConfigProvider @Inject constructor(
+    private val config: GameConfig,
+    private val mapper: ObjectMapper
+) : Provider<WorldConfig> {
+
+    override fun get(): WorldConfig {
+        val configFile = config.dataPath.resolve("world-config.yml")
+        if (Files.notExists(configFile)) error("World config not found: ${configFile.toAbsolutePath()}")
+
+        val config = ConfigMap(mapper).load(configFile)
+        val id: Int = config["id"] ?: error("You need to provide an ID for your world.")
+        val activity: String = config["activity"] ?: "-"
+        val flags: List<String> = config["flags"] ?: emptyList()
+        val location: WorldLocation = WorldLocation.valueOf(config["location"] ?: "UNITED_KINGDOM")
+
+        return WorldConfig(
+            id = id,
+            activity = activity,
+            flags = flags.map { WorldProperty.valueOf(it) },
+            location = location
+        )
     }
 }
 

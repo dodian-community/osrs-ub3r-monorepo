@@ -1,5 +1,7 @@
 package org.rsmod.game.config
 
+import net.dodian.common.models.WorldLocation
+import net.dodian.common.models.WorldProperty
 import org.rsmod.game.GameEnv
 import org.rsmod.game.model.map.Coordinates
 import java.math.BigInteger
@@ -10,11 +12,12 @@ data class GameConfig(
     val majorRevision: Int,
     val minorRevision: Int,
     val port: Int,
+    val host: String,
     val dataPath: Path,
     val pluginPath: Path,
     val home: Coordinates,
     val env: GameEnv,
-    val defaultGameFrame: Int
+    val centralServer: String
 ) {
 
     val cachePath: Path
@@ -29,6 +32,13 @@ data class GameConfig(
     val pluginConfigPath: Path
         get() = pluginPath.resolve("resources")
 }
+
+data class WorldConfig(
+    val id: Int,
+    val activity: String,
+    val flags: List<WorldProperty>,
+    val location: WorldLocation
+)
 
 data class RsaConfig(
     val exponent: BigInteger,

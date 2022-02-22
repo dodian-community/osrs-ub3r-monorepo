@@ -122,7 +122,7 @@ class DefaultClientMapper @Inject constructor(
             actionBus = request.actionBus,
             entity = entity,
             messageListeners = listOf(request.messageListener),
-            displayMode = config.defaultGameFrame
+            displayMode = 2
         )
         val encryptedPass = encryption.encrypt(password)
         entity.coords = config.home

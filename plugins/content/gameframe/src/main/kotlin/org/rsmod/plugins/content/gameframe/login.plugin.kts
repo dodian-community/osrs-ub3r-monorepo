@@ -29,7 +29,7 @@ onEarlyLogin {
 }
 
 fun Player.sendLogin() {
-    sendMessage("Welcome to ${config.name}.", MessageType.WELCOME)
+    sendMessage("Welcome to ${config.name}!", MessageType.WELCOME)
     write(ResetClientVarCache)
     write(ResetAnims)
 

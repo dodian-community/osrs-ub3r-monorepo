@@ -5,6 +5,11 @@ import com.google.inject.Guice
 import com.google.inject.Injector
 import com.google.inject.Scopes
 import dev.misfitlabs.kotlinguice4.getInstance
+import io.ktor.application.*
+import io.ktor.response.*
+import io.ktor.routing.*
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.nio.NioServerSocketChannel
@@ -35,8 +40,13 @@ import org.rsmod.game.task.launchNonBlocking
 import org.rsmod.util.mapper.ObjectMapperModule
 import java.net.InetSocketAddress
 import java.nio.file.Path
+import kotlin.concurrent.thread
 
 private val logger = InlineLogger()
+
+fun main() {
+    Server().startup()
+}
 
 class Server {
 
@@ -85,11 +95,16 @@ class Server {
         val game: Game = injector.getInstance()
         game.start()
 
+        thread {
+            val ktorServer = KtorServer(injector)
+            ktorServer.start()
+        }
+
         bind(injector)
 
         logger.info { "Loaded ${plugins.size} plugin(s)" }
         logger.debug { "Loaded game with configuration: $gameConfig" }
-        logger.info { "Game listening to connections on port ${gameConfig.port}" }
+        logger.info { "Game listening to connections on ${gameConfig.host}:${gameConfig.port}" }
 
         val eventBus: EventBus = injector.getInstance()
         eventBus.publish(ServerStartup())
@@ -109,15 +124,6 @@ class Server {
         val bind = bootstrap.bind(InetSocketAddress(config.port)).awaitUninterruptibly()
         if (!bind.isSuccess) {
             error("Could not bind game port.")
-        }
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun main(args: Array<String>) {
-            val server = Server()
-            server.startup()
         }
     }
 }

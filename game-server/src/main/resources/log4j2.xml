@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" packages="io.nozemi.aoc">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%highlight{%p}] %d{MMM dd, yyyy H:mm:ss a}: %highlight{%msg} &lt;- %C{1}::%M()%n" disableAnsi="false"/>
+        </Console>
+        <File name="File" fileName="error.log" append="false">
+            <PatternLayout disableAnsi="false"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef level="error" ref="File"/>
+            <AppenderRef level="all" ref="Console"/>
+        </Root>
+        <Logger name="io.guthix.js5" level="warn" additivity="false"/>
+        <Logger name="io.netty" level="warn" additivity="false"/>
+    </Loggers>
+</Configuration>
