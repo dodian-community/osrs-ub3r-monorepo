@@ -36,15 +36,15 @@ Remember that all `<>` indicates placeholders for values you have to change acco
 server {
     listen 80;
 
-	server_name central.example.com;
+    server_name central.example.com;
 
-	location / {
-	    proxy_pass http://127.0.0.1:<CENTRAL_SERVER_HTTP_PORT>/;
-	    proxy_set_header Host $host;
-	    proxy_set_header X-Real-IP $remote_addr;
-	    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-	    proxy_set_header X-Forwarded-Proto $scheme;
-	}
+    location / {
+	proxy_pass http://127.0.0.1:<CENTRAL_SERVER_HTTP_PORT>/;
+	proxy_set_header Host $host;
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	 proxy_set_header X-Forwarded-Proto $scheme;
+    }
 }
 ```
 2. Create a file per world called `game-worlds.conf` in same directory as step 1, with following content (one block like this per world):
