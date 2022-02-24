@@ -3,13 +3,15 @@
 
 This is an OSRS server based on [RSMod v2](https://github.com/rsmod/rsmod). It's currently upgraded to support OSRS revision 201.
 
+**Disclaimer!** This and all other documentation in this repository is incomplete and still under development. If you notice or miss anything, you're free to open issues and it might get done soon.
+
 ---
 
 ## Features
-### Central Server
+### [Central Server](/docs/central-server)
 Will be to provide each world/game server with the default cache and gamepack JAR. It will also provide a list of active/online worlds as well as some optional REST APIs for various statistics and cache data.
 
-### World / Game Server
+### [World / Game Server](/docs)
 Provides the actual game backend that players login and play on.
 
 ---
