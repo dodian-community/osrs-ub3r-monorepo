@@ -15,7 +15,7 @@ tasks.create<JavaExec>("createRsa") {
     args = listOf(
         "2048",
         "16",
-        rootProject.projectDir.toPath().resolve("all/data/rsa/key.pem").toAbsolutePath().toString()
+        rootProject.projectDir.toPath().resolve("game-server/data/rsa/key.pem").toAbsolutePath().toString()
     )
 }
 
